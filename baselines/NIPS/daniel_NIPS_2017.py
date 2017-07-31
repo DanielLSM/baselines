@@ -1,3 +1,4 @@
-def print():
+def pri():
+	print ("NIPS")
 	pass
 	
