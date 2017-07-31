@@ -1,1 +1,3 @@
-only a test
+def print():
+	pass
+	
