@@ -23,6 +23,6 @@ setup(name='baselines',
       ],
       description="OpenAI baselines: high quality implementations of reinforcement learning algorithms",
       author="OpenAI",
-      url='https://github.com/openai/baselines',
+      url='https://github.com/DanielLSM/baselines',
       author_email="gym@openai.com",
       version="0.1.4")
