@@ -68,6 +68,7 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
         epoch_episodes = 0
         for epoch in range(nb_epochs):
             for cycle in range(nb_epoch_cycles):
+                logger.info('Starting a new epoch_cycle nº {} =)'.format(cycle))
                 # Perform rollouts.
                 for t_rollout in range(nb_rollout_steps):
                     # Predict next action.
@@ -103,13 +104,14 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
 
                         agent.reset()
                         obs = env.reset()
+                        logger.info('Episode ended nº {}'.format(epoch_episodes))
 
                 # Train.
                 epoch_actor_losses = []
                 epoch_critic_losses = []
                 epoch_adaptive_distances = []
                 for t_train in range(nb_train_steps):
-                    # Adapt param noise, if necessary.
+                    # Adapt param noise, if necessary.at {} rollout step
                     if memory.nb_entries >= batch_size and t % param_noise_adaption_interval == 0:
                         distance = agent.adapt_param_noise()
                         epoch_adaptive_distances.append(distance)
