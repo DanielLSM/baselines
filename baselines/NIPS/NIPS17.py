@@ -117,8 +117,8 @@ def run(seed, noise_type, num_cpu, layer_norm, logdir, gym_monitor, evaluation, 
     training.train(env=env, eval_env=None, param_noise=param_noise,
         action_noise=action_noise, actor=actor, critic=critic, memory=memory, **kwargs)
     env.close()
-    if eval_env is not None:
-        eval_env.close()
+    #if eval_env is not None:
+    #    eval_env.close()
     Logger.CURRENT.close()
     if rank == 0:
         logger.info('total runtime: {}s'.format(time.time() - start_time))
