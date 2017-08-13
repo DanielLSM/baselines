@@ -15,7 +15,7 @@ from baselines.common.misc_util import (
     boolean_flag,
     SimpleMonitor
 )
-import baselines.ddpg.training_NIPS as training
+import baselines.ddpg.trainingNIPS as training
 from baselines.ddpg.models import Actor, Critic
 from baselines.ddpg.memory import Memory
 from baselines.ddpg.noise import *
@@ -26,16 +26,18 @@ from mpi4py import MPI
 
 
 from osim.env import *
+from baselines.common import tf_util as U
 
 
-def run(seed, noise_type, num_cpu, layer_norm, logdir, gym_monitor, evaluation, bind_to_core, **kwargs):
+def run(seed, noise_type, num_cpu, layer_norm, logdir, gym_monitor, evaluation, bind_to_core, test, **kwargs):
     kwargs['logdir'] = logdir
     whoami = mpi_fork(num_cpu, bind_to_core=bind_to_core)
+
+    
     if whoami == 'parent':
         sys.exit(0)
 
     
-
 
     # Configure things.
     rank = MPI.COMM_WORLD.Get_rank()
@@ -53,8 +55,10 @@ def run(seed, noise_type, num_cpu, layer_norm, logdir, gym_monitor, evaluation, 
     
     # Create envs.
     if rank == 0:
-
-        env = RunEnv(False)
+        if test:
+            env = RunEnv(True)
+        else:
+            env = RunEnv(False)
     #env.reset() 
     #    env = gym.make(env_id)
     #    if gym_monitor and logdir:
@@ -76,6 +80,9 @@ def run(seed, noise_type, num_cpu, layer_norm, logdir, gym_monitor, evaluation, 
     #        eval_env = gym.make(env_id)
     #    else:
     #        eval_env = None
+
+    
+
 
     # Parse noise_type
     action_noise = None
@@ -114,7 +121,12 @@ def run(seed, noise_type, num_cpu, layer_norm, logdir, gym_monitor, evaluation, 
     # Disable logging for rank != 0 to avoid noise.
     if rank == 0:
         start_time = time.time()
-    training.train(env=env, eval_env=None, param_noise=param_noise,
+
+    if test:
+        training.test(env=env, eval_env=None, param_noise=param_noise,
+        action_noise=action_noise, actor=actor, critic=critic, memory=memory, **kwargs)
+    else:
+        training.train(env=env, eval_env=None, param_noise=param_noise,
         action_noise=action_noise, actor=actor, critic=critic, memory=memory, **kwargs)
     env.close()
     #if eval_env is not None:
@@ -131,6 +143,7 @@ def parse_args():
     
     #parser.add_argument('--train', dest='train', action='store_true', default=True)
     #parser.add_argument('--test', dest='train', action='store_false', default=True)
+    boolean_flag(parser, 'test', default=False)
     #parser.add_argument('--steps', dest='steps', action='store', default=10000, type=int)
     #parser.add_argument('--visualize', dest='visualize', action='store_true', default=False)
     #parser.add_argument('--model', dest='model', action='store', default="example.h5f")
@@ -141,7 +154,7 @@ def parse_args():
     boolean_flag(parser, 'render-eval', default=False)
     boolean_flag(parser, 'layer-norm', default=True)
     boolean_flag(parser, 'render', default=False)
-    parser.add_argument('--num-cpu', type=int, default=4)
+    parser.add_argument('--num-cpu', type=int, default=1)
     boolean_flag(parser, 'normalize-returns', default=False)
     boolean_flag(parser, 'normalize-observations', default=True)
     parser.add_argument('--seed', type=int, default=0)
@@ -159,7 +172,7 @@ def parse_args():
     parser.add_argument('--nb-eval-steps', type=int, default=100)  # per epoch cycle and MPI worker
     parser.add_argument('--nb-rollout-steps', type=int, default=100)  # per epoch cycle and MPI worker
     parser.add_argument('--noise-type', type=str, default='adaptive-param_0.2')  # choices are adaptive-param_xx, ou_xx, normal_xx, none
-    parser.add_argument('--logdir', type=str, default='/tmp/NIPS17')
+    parser.add_argument('--logdir', type=str, default=None)
     boolean_flag(parser, 'gym-monitor', default=False)
     boolean_flag(parser, 'evaluation', default=True)
     boolean_flag(parser, 'bind-to-core', default=False)
@@ -170,6 +183,9 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
 
+
+
+    logger.session().__enter__()
     # Figure out what logdir to use.
     if args['logdir'] is None:
         args['logdir'] = os.getenv('OPENAI_LOGDIR')
@@ -182,6 +198,8 @@ if __name__ == '__main__':
     if args['logdir']:
         with open(os.path.join(args['logdir'], 'args.json'), 'w') as f:
             json.dump(args, f)
+
+    logger.info('Directory is {}'.format(logger.get_dir()))
 
     # Run actual script.
     run(**args)
