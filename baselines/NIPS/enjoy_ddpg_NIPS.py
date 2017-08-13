@@ -13,6 +13,8 @@ def enjoy(env_id, num_timesteps, seed):
     logger.session().__enter__()
     set_global_seeds(seed)
     env = gym.make(env_id)
+    #Restore the session seems nice...
+
     def policy_fn(name, ob_space, ac_space):
         return mlp_policy.MlpPolicy(name=name, ob_space=ob_space, ac_space=ac_space,
             hid_size=64, num_hid_layers=2)

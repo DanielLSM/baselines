@@ -15,7 +15,7 @@ from baselines.common.misc_util import (
     boolean_flag,
     SimpleMonitor
 )
-import baselines.ddpg.training as training
+import baselines.ddpg.training_NIPS as training
 from baselines.ddpg.models import Actor, Critic
 from baselines.ddpg.memory import Memory
 from baselines.ddpg.noise import *
@@ -159,7 +159,7 @@ def parse_args():
     parser.add_argument('--nb-eval-steps', type=int, default=100)  # per epoch cycle and MPI worker
     parser.add_argument('--nb-rollout-steps', type=int, default=100)  # per epoch cycle and MPI worker
     parser.add_argument('--noise-type', type=str, default='adaptive-param_0.2')  # choices are adaptive-param_xx, ou_xx, normal_xx, none
-    parser.add_argument('--logdir', type=str, default=None)
+    parser.add_argument('--logdir', type=str, default='/tmp/NIPS17')
     boolean_flag(parser, 'gym-monitor', default=False)
     boolean_flag(parser, 'evaluation', default=True)
     boolean_flag(parser, 'bind-to-core', default=False)
