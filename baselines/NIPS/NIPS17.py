@@ -152,7 +152,7 @@ def parse_args():
     
     #parser.add_argument('--env-id', type=str, default='HalfCheetah-v1')
     boolean_flag(parser, 'render-eval', default=False)
-    boolean_flag(parser, 'layer-norm', default=True)
+    boolean_flag(parser, 'layer-norm', default=False)
     boolean_flag(parser, 'render', default=False)
     parser.add_argument('--num-cpu', type=int, default=1)
     boolean_flag(parser, 'normalize-returns', default=False)
