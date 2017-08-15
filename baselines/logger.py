@@ -315,7 +315,7 @@ def _demo():
     debug("shouldn't appear")
     set_level(DEBUG)
     debug("should appear")
-    dir = "/tmp/testlogging"
+    dir = "/home/dmarta/baselines/baselines/NIPS/NIPS_analyse"
     if os.path.exists(dir):
         shutil.rmtree(dir)
     with session(dir=dir):
