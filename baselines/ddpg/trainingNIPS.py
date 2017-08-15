@@ -193,7 +193,7 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
         # Save the variables to disk.
         
         if rank == 0 and logdir:
-            save_path = saver.save(sess, "/tmp/NIPS/model")
+            save_path = saver.save(sess, "/home/dmarta/baselines/baselines/NIPS/NIPS_analyse/model")
             #logger.info('rank {}: seed={}, logdir={}'.format(save_path)
             logger.info('Model saved in file: {}'.format(save_path))
 
