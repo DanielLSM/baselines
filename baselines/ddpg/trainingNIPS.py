@@ -3,7 +3,7 @@ import time
 from collections import deque
 import pickle
 
-from baselines.ddpg.ddpg import DDPG
+from baselines.ddpg.ddpgNIPS import DDPG
 from baselines.ddpg.util import mpi_mean, mpi_std, mpi_max, mpi_sum
 import baselines.common.tf_util as U
 
@@ -46,7 +46,6 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
         # Prepare everything.
         agent.initialize(sess)
         sess.graph.finalize()
-
         agent.reset()
         obs = env.reset()
         if eval_env is not None:

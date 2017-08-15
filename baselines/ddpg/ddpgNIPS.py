@@ -57,7 +57,7 @@ def get_perturbed_actor_updates(actor, perturbed_actor, param_noise_stddev):
 class DDPG(object):
     def __init__(self, actor, critic, memory, observation_shape, action_shape, param_noise=None, action_noise=None,
         gamma=0.99, tau=0.001, normalize_returns=False, enable_popart=False, normalize_observations=True,
-        batch_size=128, observation_range=(-5., 5.), action_range=(-1., 1.), return_range=(-np.inf, np.inf),
+        batch_size=128, observation_range=(-5., 5.), action_range=(0., 1.), return_range=(-np.inf, np.inf),
         adaptive_param_noise=True, adaptive_param_noise_policy_threshold=.1,
         critic_l2_reg=0., actor_lr=1e-4, critic_lr=1e-3, clip_norm=None, reward_scale=1.):
         # Inputs.
@@ -274,7 +274,8 @@ class DDPG(object):
     def train(self):
         # Get a batch.
         batch = self.memory.sample(batch_size=self.batch_size)
-
+        from mpi4py import MPI
+        rank = MPI.COMM_WORLD.Get_rank()
         if self.normalize_returns and self.enable_popart:
             old_mean, old_std, target_Q = self.sess.run([self.ret_rms.mean, self.ret_rms.std, self.target_Q], feed_dict={
                 self.obs1: batch['obs1'],
@@ -310,7 +311,9 @@ class DDPG(object):
             self.actions: batch['actions'],
             self.critic_target: target_Q,
         })
+        print("I started the train and Im rank: {}".format(rank))
         self.actor_optimizer.update(actor_grads, stepsize=self.actor_lr)
+        print("I ended the train and its a fun world Im rank: {} ".format(rank))
         self.critic_optimizer.update(critic_grads, stepsize=self.critic_lr)
 
         return critic_loss, actor_loss

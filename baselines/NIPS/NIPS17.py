@@ -56,9 +56,9 @@ def run(seed, noise_type, num_cpu, layer_norm, logdir, gym_monitor, evaluation, 
     # Create envs.
     if rank == 0:
         if test:
-            env = RunEnv(True)
+            env = RunEnv(visualize=True)
         else:
-            env = RunEnv(False)
+            env = RunEnv(visualize=False)
     #env.reset() 
     #    env = gym.make(env_id)
     #    if gym_monitor and logdir:
@@ -73,7 +73,7 @@ def run(seed, noise_type, num_cpu, layer_norm, logdir, gym_monitor, evaluation, 
     #    else:
     #        eval_env = None
     else:
-        env = RunEnv(False)
+        env = RunEnv(visualize=False)
     #env.reset()
     #    env = gym.make(env_id)
     #    if evaluation:
@@ -155,7 +155,7 @@ def parse_args():
     boolean_flag(parser, 'layer-norm', default=False)
     boolean_flag(parser, 'render', default=False)
     parser.add_argument('--num-cpu', type=int, default=1)
-    boolean_flag(parser, 'normalize-returns', default=False)
+    boolean_flag(parser, 'normalize-returns', default=True)
     boolean_flag(parser, 'normalize-observations', default=True)
     parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--critic-l2-reg', type=float, default=1e-2)
@@ -172,7 +172,7 @@ def parse_args():
     parser.add_argument('--nb-eval-steps', type=int, default=100)  # per epoch cycle and MPI worker
     parser.add_argument('--nb-rollout-steps', type=int, default=100)  # per epoch cycle and MPI worker
     parser.add_argument('--noise-type', type=str, default='adaptive-param_0.2')  # choices are adaptive-param_xx, ou_xx, normal_xx, none
-    parser.add_argument('--logdir', type=str, default=None)
+    parser.add_argument('--logdir', type=str, default = None)
     boolean_flag(parser, 'gym-monitor', default=False)
     boolean_flag(parser, 'evaluation', default=True)
     boolean_flag(parser, 'bind-to-core', default=False)
