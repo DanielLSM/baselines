@@ -1,0 +1,3123 @@
+Arguments:
+actor_lr: 0.0001
+batch_size: 64
+bind_to_core: False
+clip_norm: None
+critic_l2_reg: 0.01
+critic_lr: 0.001
+evaluation: True
+gamma: 0.99
+gym_monitor: False
+layer_norm: False
+logdir: /home/dmarta/baselines/baselines/NIPS/NIPS_analyse/openai-2017-08-16-01-17-03-974767
+nb_epoch_cycles: 1
+nb_epochs: 100
+nb_eval_steps: 100
+nb_rollout_steps: 100
+nb_train_steps: 50
+noise_type: adaptive-param_0.2
+normalize_observations: True
+normalize_returns: False
+num_cpu: 1
+popart: False
+render: False
+render_eval: False
+reward_scale: 1.0
+seed: 0
+test: False
+
+Directory is /home/dmarta/baselines/baselines/NIPS/NIPS_analyse/openai-2017-08-16-01-17-03-974767
+rank 0: seed=0, logdir=/home/dmarta/baselines/baselines/NIPS/NIPS_analyse/openai-2017-08-16-01-17-03-974767
+scaling actions by [ 1.  1.  1.  1.  1.  1.  1.  1.  1.  1.  1.  1.  1.  1.  1.  1.  1.  1.] before executing in env
+setting up param noise
+  param_noise_actor/dense/kernel:0 <- actor/dense/kernel:0 + noise
+  param_noise_actor/dense/bias:0 <- actor/dense/bias:0 + noise
+  param_noise_actor/dense_1/kernel:0 <- actor/dense_1/kernel:0 + noise
+  param_noise_actor/dense_1/bias:0 <- actor/dense_1/bias:0 + noise
+  param_noise_actor/dense_2/kernel:0 <- actor/dense_2/kernel:0 + noise
+  param_noise_actor/dense_2/bias:0 <- actor/dense_2/bias:0 + noise
+  adaptive_param_noise_actor/dense/kernel:0 <- actor/dense/kernel:0 + noise
+  adaptive_param_noise_actor/dense/bias:0 <- actor/dense/bias:0 + noise
+  adaptive_param_noise_actor/dense_1/kernel:0 <- actor/dense_1/kernel:0 + noise
+  adaptive_param_noise_actor/dense_1/bias:0 <- actor/dense_1/bias:0 + noise
+  adaptive_param_noise_actor/dense_2/kernel:0 <- actor/dense_2/kernel:0 + noise
+  adaptive_param_noise_actor/dense_2/bias:0 <- actor/dense_2/bias:0 + noise
+setting up actor optimizer
+  actor shapes: [[41, 64], [64], [64, 64], [64], [64, 18], [18]]
+  actor params: 8018
+setting up critic optimizer
+  regularizing: critic/dense/kernel:0
+  regularizing: critic/dense_1/kernel:0
+  regularizing: critic/dense_2/kernel:0
+  applying l2 regularization with 0.01
+  critic shapes: [[41, 64], [64], [82, 64], [64], [64, 1], [1]]
+  critic params: 8065
+setting up target updates ...
+  target_actor/dense/kernel:0 <- actor/dense/kernel:0
+  target_actor/dense/bias:0 <- actor/dense/bias:0
+  target_actor/dense_1/kernel:0 <- actor/dense_1/kernel:0
+  target_actor/dense_1/bias:0 <- actor/dense_1/bias:0
+  target_actor/dense_2/kernel:0 <- actor/dense_2/kernel:0
+  target_actor/dense_2/bias:0 <- actor/dense_2/bias:0
+setting up target updates ...
+  target_critic/dense/kernel:0 <- critic/dense/kernel:0
+  target_critic/dense/bias:0 <- critic/dense/bias:0
+  target_critic/dense_1/kernel:0 <- critic/dense_1/kernel:0
+  target_critic/dense_1/bias:0 <- critic/dense_1/bias:0
+  target_critic/dense_2/kernel:0 <- critic/dense_2/kernel:0
+  target_critic/dense_2/bias:0 <- critic/dense_2/bias:0
+Using agent with the following configuration:
+dict_items([('obs0', <tf.Tensor 'obs0:0' shape=(?, 41) dtype=float32>), ('obs1', <tf.Tensor 'obs1:0' shape=(?, 41) dtype=float32>), ('terminals1', <tf.Tensor 'terminals1:0' shape=(?, 1) dtype=float32>), ('rewards', <tf.Tensor 'rewards:0' shape=(?, 1) dtype=float32>), ('actions', <tf.Tensor 'actions:0' shape=(?, 18) dtype=float32>), ('critic_target', <tf.Tensor 'critic_target:0' shape=(?, 1) dtype=float32>), ('param_noise_stddev', <tf.Tensor 'param_noise_stddev:0' shape=() dtype=float32>), ('gamma', 0.99), ('tau', 0.01), ('memory', <baselines.ddpg.memory.Memory object at 0x7f5d8f7a8eb8>), ('normalize_observations', True), ('normalize_returns', False), ('action_noise', None), ('param_noise', AdaptiveParamNoiseSpec(initial_stddev=0.2, desired_action_stddev=0.2, adoption_coefficient=1.01)), ('action_range', (-1.0, 1.0)), ('return_range', (-inf, inf)), ('observation_range', (-5.0, 5.0)), ('critic', <baselines.ddpg.models.Critic object at 0x7f5d8f799e10>), ('actor', <baselines.ddpg.models.Actor object at 0x7f5d8f799e80>), ('actor_lr', 0.0001), ('critic_lr', 0.001), ('clip_norm', None), ('enable_popart', False), ('reward_scale', 1.0), ('batch_size', 64), ('stats_sample', None), ('critic_l2_reg', 0.01), ('obs_rms', <baselines.common.mpi_running_mean_std.RunningMeanStd object at 0x7f5d8f17fef0>), ('ret_rms', None), ('target_actor', <baselines.ddpg.models.Actor object at 0x7f5d8f1b5ba8>), ('target_critic', <baselines.ddpg.models.Critic object at 0x7f5dc5bc6550>), ('actor_tf', <tf.Tensor 'actor/Tanh:0' shape=(?, 18) dtype=float32>), ('normalized_critic_tf', <tf.Tensor 'critic/dense_3/BiasAdd:0' shape=(?, 1) dtype=float32>), ('critic_tf', <tf.Tensor 'clip_by_value_2:0' shape=(?, 1) dtype=float32>), ('normalized_critic_with_actor_tf', <tf.Tensor 'critic_1/dense_3/BiasAdd:0' shape=(?, 1) dtype=float32>), ('critic_with_actor_tf', <tf.Tensor 'clip_by_value_3:0' shape=(?, 1) dtype=float32>), ('target_Q', <tf.Tensor 'add:0' shape=(?, 1) dtype=float32>), ('perturbed_actor_tf', <tf.Tensor 'param_noise_actor/Tanh:0' shape=(?, 18) dtype=float32>), ('perturb_policy_ops', <tf.Operation 'group_deps' type=NoOp>), ('perturb_adaptive_policy_ops', <tf.Operation 'group_deps_1' type=NoOp>), ('adaptive_policy_distance', <tf.Tensor 'Sqrt:0' shape=() dtype=float32>), ('actor_loss', <tf.Tensor 'Neg:0' shape=() dtype=float32>), ('actor_grads', <tf.Tensor 'concat:0' shape=(8018,) dtype=float32>), ('actor_optimizer', <baselines.common.mpi_adam.MpiAdam object at 0x7f5d8ef7a710>), ('critic_loss', <tf.Tensor 'add_13:0' shape=() dtype=float32>), ('critic_grads', <tf.Tensor 'concat_2:0' shape=(8065,) dtype=float32>), ('critic_optimizer', <baselines.common.mpi_adam.MpiAdam object at 0x7f5d8eee7b38>), ('stats_ops', [<tf.Tensor 'Mean_3:0' shape=() dtype=float32>, <tf.Tensor 'Mean_4:0' shape=() dtype=float32>, <tf.Tensor 'Mean_5:0' shape=() dtype=float32>, <tf.Tensor 'Sqrt_1:0' shape=() dtype=float32>, <tf.Tensor 'Mean_8:0' shape=() dtype=float32>, <tf.Tensor 'Sqrt_2:0' shape=() dtype=float32>, <tf.Tensor 'Mean_11:0' shape=() dtype=float32>, <tf.Tensor 'Sqrt_3:0' shape=() dtype=float32>, <tf.Tensor 'Mean_14:0' shape=() dtype=float32>, <tf.Tensor 'Sqrt_4:0' shape=() dtype=float32>]), ('stats_names', ['obs_rms_mean', 'obs_rms_std', 'reference_Q_mean', 'reference_Q_std', 'reference_actor_Q_mean', 'reference_actor_Q_std', 'reference_action_mean', 'reference_action_std', 'reference_perturbed_action_mean', 'reference_perturbed_action_std']), ('target_init_updates', [<tf.Operation 'group_deps_4' type=NoOp>, <tf.Operation 'group_deps_6' type=NoOp>]), ('target_soft_updates', [<tf.Operation 'group_deps_5' type=NoOp>, <tf.Operation 'group_deps_7' type=NoOp>])])
+Starting a new epoch_cycle nº 0 =)
+--------------------------------------
+| obs_rms_mean            | 0.214    |
+| obs_rms_std             | 0.726    |
+| param_noise_stddev      | 0.122    |
+| reference_Q_mean        | -0.115   |
+| reference_Q_std         | 0.129    |
+| reference_action_mean   | -0.017   |
+| reference_action_std    | 0.0895   |
+| reference_actor_Q_mean  | -0.0415  |
+| reference_actor_Q_std   | 0.0944   |
+| reference_perturbed_... | 0.718    |
+| rollout/Q_mean          | 0.00182  |
+| rollout/actions_mean    | 0.249    |
+| rollout/actions_std     | 0.692    |
+| rollout/episode_steps   | 0        |
+| rollout/episodes        | 0        |
+| rollout/return          | 0        |
+| rollout/return_history  | nan      |
+| total/duration          | 9.37     |
+| total/episodes          | 0        |
+| total/epochs            | 1        |
+| total/steps             | 100      |
+| total/steps_per_second  | 10.7     |
+| train/loss_actor        | 0.0349   |
+| train/loss_critic       | 0.438    |
+| train/param_noise_di... | 0.605    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 1
+--------------------------------------
+| obs_rms_mean            | 0.147    |
+| obs_rms_std             | 0.775    |
+| param_noise_stddev      | 0.0739   |
+| reference_Q_mean        | -0.12    |
+| reference_Q_std         | 0.147    |
+| reference_action_mean   | -0.0178  |
+| reference_action_std    | 0.22     |
+| reference_actor_Q_mean  | 0.00418  |
+| reference_actor_Q_std   | 0.0805   |
+| reference_perturbed_... | 0.488    |
+| rollout/Q_mean          | -0.0559  |
+| rollout/actions_mean    | 0.353    |
+| rollout/actions_std     | 0.668    |
+| rollout/episode_steps   | 151      |
+| rollout/episodes        | 1        |
+| rollout/return          | -42.9    |
+| rollout/return_history  | -42.9    |
+| total/duration          | 24.8     |
+| total/episodes          | 1        |
+| total/epochs            | 2        |
+| total/steps             | 200      |
+| total/steps_per_second  | 8.05     |
+| train/loss_actor        | 0.11     |
+| train/loss_critic       | 0.217    |
+| train/param_noise_di... | 0.427    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 2
+Episode ended nº 3
+--------------------------------------
+| obs_rms_mean            | 0.1      |
+| obs_rms_std             | 0.781    |
+| param_noise_stddev      | 0.045    |
+| reference_Q_mean        | -0.131   |
+| reference_Q_std         | 0.181    |
+| reference_action_mean   | 0.0164   |
+| reference_action_std    | 0.444    |
+| reference_actor_Q_mean  | 0.0781   |
+| reference_actor_Q_std   | 0.0813   |
+| reference_perturbed_... | 0.331    |
+| rollout/Q_mean          | -0.0249  |
+| rollout/actions_mean    | 0.469    |
+| rollout/actions_std     | 0.587    |
+| rollout/episode_steps   | 100      |
+| rollout/episodes        | 3        |
+| rollout/return          | -9.95    |
+| rollout/return_history  | -9.95    |
+| total/duration          | 95       |
+| total/episodes          | 3        |
+| total/epochs            | 3        |
+| total/steps             | 300      |
+| total/steps_per_second  | 3.16     |
+| train/loss_actor        | 0.0129   |
+| train/loss_critic       | 0.104    |
+| train/param_noise_di... | 0.297    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 4
+--------------------------------------
+| obs_rms_mean            | 0.0785   |
+| obs_rms_std             | 0.767    |
+| param_noise_stddev      | 0.0468   |
+| reference_Q_mean        | -0.0727  |
+| reference_Q_std         | 0.204    |
+| reference_action_mean   | 0.0792   |
+| reference_action_std    | 0.641    |
+| reference_actor_Q_mean  | 0.105    |
+| reference_actor_Q_std   | 0.101    |
+| reference_perturbed_... | 0.507    |
+| rollout/Q_mean          | 0.0182   |
+| rollout/actions_mean    | 0.393    |
+| rollout/actions_std     | 0.528    |
+| rollout/episode_steps   | 98       |
+| rollout/episodes        | 4        |
+| rollout/return          | -6.23    |
+| rollout/return_history  | -6.23    |
+| total/duration          | 135      |
+| total/episodes          | 4        |
+| total/epochs            | 4        |
+| total/steps             | 400      |
+| total/steps_per_second  | 2.97     |
+| train/loss_actor        | -0.0526  |
+| train/loss_critic       | 0.0496   |
+| train/param_noise_di... | 0.204    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 5
+--------------------------------------
+| obs_rms_mean            | 0.0591   |
+| obs_rms_std             | 0.754    |
+| param_noise_stddev      | 0.0477   |
+| reference_Q_mean        | -0.0226  |
+| reference_Q_std         | 0.232    |
+| reference_action_mean   | 0.136    |
+| reference_action_std    | 0.702    |
+| reference_actor_Q_mean  | 0.123    |
+| reference_actor_Q_std   | 0.143    |
+| reference_perturbed_... | 0.657    |
+| rollout/Q_mean          | 0.0547   |
+| rollout/actions_mean    | 0.416    |
+| rollout/actions_std     | 0.483    |
+| rollout/episode_steps   | 93.8     |
+| rollout/episodes        | 5        |
+| rollout/return          | -3.72    |
+| rollout/return_history  | -3.72    |
+| total/duration          | 148      |
+| total/episodes          | 5        |
+| total/epochs            | 5        |
+| total/steps             | 500      |
+| total/steps_per_second  | 3.39     |
+| train/loss_actor        | -0.0845  |
+| train/loss_critic       | 0.0284   |
+| train/param_noise_di... | 0.203    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 6
+--------------------------------------
+| obs_rms_mean            | 0.0614   |
+| obs_rms_std             | 0.75     |
+| param_noise_stddev      | 0.0424   |
+| reference_Q_mean        | -0.0366  |
+| reference_Q_std         | 0.239    |
+| reference_action_mean   | 0.224    |
+| reference_action_std    | 0.667    |
+| reference_actor_Q_mean  | 0.136    |
+| reference_actor_Q_std   | 0.175    |
+| reference_perturbed_... | 0.719    |
+| rollout/Q_mean          | 0.0826   |
+| rollout/actions_mean    | 0.475    |
+| rollout/actions_std     | 0.462    |
+| rollout/episode_steps   | 91.5     |
+| rollout/episodes        | 6        |
+| rollout/return          | -2.24    |
+| rollout/return_history  | -2.24    |
+| total/duration          | 178      |
+| total/episodes          | 6        |
+| total/epochs            | 6        |
+| total/steps             | 600      |
+| total/steps_per_second  | 3.37     |
+| train/loss_actor        | -0.141   |
+| train/loss_critic       | 0.0164   |
+| train/param_noise_di... | 0.216    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 7
+Episode ended nº 8
+--------------------------------------
+| obs_rms_mean            | 0.0612   |
+| obs_rms_std             | 0.758    |
+| param_noise_stddev      | 0.0399   |
+| reference_Q_mean        | -0.00887 |
+| reference_Q_std         | 0.277    |
+| reference_action_mean   | 0.238    |
+| reference_action_std    | 0.675    |
+| reference_actor_Q_mean  | 0.136    |
+| reference_actor_Q_std   | 0.218    |
+| reference_perturbed_... | 0.7      |
+| rollout/Q_mean          | 0.114    |
+| rollout/actions_mean    | 0.515    |
+| rollout/actions_std     | 0.441    |
+| rollout/episode_steps   | 86.2     |
+| rollout/episodes        | 8        |
+| rollout/return          | -0.0216  |
+| rollout/return_history  | -0.0216  |
+| total/duration          | 222      |
+| total/episodes          | 8        |
+| total/epochs            | 7        |
+| total/steps             | 700      |
+| total/steps_per_second  | 3.15     |
+| train/loss_actor        | -0.182   |
+| train/loss_critic       | 0.014    |
+| train/param_noise_di... | 0.213    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 9
+--------------------------------------
+| obs_rms_mean            | 0.0594   |
+| obs_rms_std             | 0.764    |
+| param_noise_stddev      | 0.0399   |
+| reference_Q_mean        | -0.048   |
+| reference_Q_std         | 0.335    |
+| reference_action_mean   | 0.173    |
+| reference_action_std    | 0.732    |
+| reference_actor_Q_mean  | 0.123    |
+| reference_actor_Q_std   | 0.279    |
+| reference_perturbed_... | 0.671    |
+| rollout/Q_mean          | 0.143    |
+| rollout/actions_mean    | 0.544    |
+| rollout/actions_std     | 0.423    |
+| rollout/episode_steps   | 86.2     |
+| rollout/episodes        | 9        |
+| rollout/return          | 0.586    |
+| rollout/return_history  | 0.586    |
+| total/duration          | 247      |
+| total/episodes          | 9        |
+| total/epochs            | 8        |
+| total/steps             | 800      |
+| total/steps_per_second  | 3.24     |
+| train/loss_actor        | -0.231   |
+| train/loss_critic       | 0.0126   |
+| train/param_noise_di... | 0.206    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 10
+--------------------------------------
+| obs_rms_mean            | 0.0648   |
+| obs_rms_std             | 0.745    |
+| param_noise_stddev      | 0.0368   |
+| reference_Q_mean        | -0.0499  |
+| reference_Q_std         | 0.398    |
+| reference_action_mean   | 0.13     |
+| reference_action_std    | 0.724    |
+| reference_actor_Q_mean  | 0.041    |
+| reference_actor_Q_std   | 0.383    |
+| reference_perturbed_... | 0.719    |
+| rollout/Q_mean          | 0.12     |
+| rollout/actions_mean    | 0.555    |
+| rollout/actions_std     | 0.404    |
+| rollout/episode_steps   | 89.5     |
+| rollout/episodes        | 10       |
+| rollout/return          | -1.04    |
+| rollout/return_history  | -1.04    |
+| total/duration          | 256      |
+| total/episodes          | 10       |
+| total/epochs            | 9        |
+| total/steps             | 900      |
+| total/steps_per_second  | 3.52     |
+| train/loss_actor        | -0.158   |
+| train/loss_critic       | 0.016    |
+| train/param_noise_di... | 0.212    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+--------------------------------------
+| obs_rms_mean            | 0.0666   |
+| obs_rms_std             | 0.729    |
+| param_noise_stddev      | 0.0368   |
+| reference_Q_mean        | -0.0263  |
+| reference_Q_std         | 0.44     |
+| reference_action_mean   | 0.0874   |
+| reference_action_std    | 0.698    |
+| reference_actor_Q_mean  | 0.0096   |
+| reference_actor_Q_std   | 0.446    |
+| reference_perturbed_... | 0.714    |
+| rollout/Q_mean          | 0.0904   |
+| rollout/actions_mean    | 0.594    |
+| rollout/actions_std     | 0.401    |
+| rollout/episode_steps   | 89.5     |
+| rollout/episodes        | 10       |
+| rollout/return          | -1.04    |
+| rollout/return_history  | -1.04    |
+| total/duration          | 265      |
+| total/episodes          | 10       |
+| total/epochs            | 10       |
+| total/steps             | 1e+03    |
+| total/steps_per_second  | 3.78     |
+| train/loss_actor        | -0.15    |
+| train/loss_critic       | 0.0174   |
+| train/param_noise_di... | 0.208    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 11
+Episode ended nº 12
+--------------------------------------
+| obs_rms_mean            | 0.0652   |
+| obs_rms_std             | 0.743    |
+| param_noise_stddev      | 0.034    |
+| reference_Q_mean        | -0.0593  |
+| reference_Q_std         | 0.495    |
+| reference_action_mean   | 0.0394   |
+| reference_action_std    | 0.676    |
+| reference_actor_Q_mean  | -0.00677 |
+| reference_actor_Q_std   | 0.491    |
+| reference_perturbed_... | 0.677    |
+| rollout/Q_mean          | 0.124    |
+| rollout/actions_mean    | 0.625    |
+| rollout/actions_std     | 0.395    |
+| rollout/episode_steps   | 89.1     |
+| rollout/episodes        | 12       |
+| rollout/return          | -1.25    |
+| rollout/return_history  | -1.25    |
+| total/duration          | 288      |
+| total/episodes          | 12       |
+| total/epochs            | 11       |
+| total/steps             | 1.1e+03  |
+| total/steps_per_second  | 3.82     |
+| train/loss_actor        | -0.183   |
+| train/loss_critic       | 0.0273   |
+| train/param_noise_di... | 0.213    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 13
+--------------------------------------
+| obs_rms_mean            | 0.0649   |
+| obs_rms_std             | 0.747    |
+| param_noise_stddev      | 0.0314   |
+| reference_Q_mean        | -0.0112  |
+| reference_Q_std         | 0.532    |
+| reference_action_mean   | 0.0498   |
+| reference_action_std    | 0.696    |
+| reference_actor_Q_mean  | 0.0408   |
+| reference_actor_Q_std   | 0.545    |
+| reference_perturbed_... | 0.714    |
+| rollout/Q_mean          | 0.102    |
+| rollout/actions_mean    | 0.649    |
+| rollout/actions_std     | 0.387    |
+| rollout/episode_steps   | 90.8     |
+| rollout/episodes        | 13       |
+| rollout/return          | -2.04    |
+| rollout/return_history  | -2.04    |
+| total/duration          | 313      |
+| total/episodes          | 13       |
+| total/epochs            | 12       |
+| total/steps             | 1.2e+03  |
+| total/steps_per_second  | 3.84     |
+| train/loss_actor        | -0.178   |
+| train/loss_critic       | 0.0242   |
+| train/param_noise_di... | 0.21     |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 14
+--------------------------------------
+| obs_rms_mean            | 0.0653   |
+| obs_rms_std             | 0.758    |
+| param_noise_stddev      | 0.0327   |
+| reference_Q_mean        | -0.107   |
+| reference_Q_std         | 0.615    |
+| reference_action_mean   | 0.134    |
+| reference_action_std    | 0.742    |
+| reference_actor_Q_mean  | -0.0244  |
+| reference_actor_Q_std   | 0.614    |
+| reference_perturbed_... | 0.726    |
+| rollout/Q_mean          | 0.148    |
+| rollout/actions_mean    | 0.674    |
+| rollout/actions_std     | 0.382    |
+| rollout/episode_steps   | 88.8     |
+| rollout/episodes        | 14       |
+| rollout/return          | -1.38    |
+| rollout/return_history  | -1.38    |
+| total/duration          | 349      |
+| total/episodes          | 14       |
+| total/epochs            | 13       |
+| total/steps             | 1.3e+03  |
+| total/steps_per_second  | 3.73     |
+| train/loss_actor        | -0.238   |
+| train/loss_critic       | 0.0331   |
+| train/param_noise_di... | 0.198    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 15
+--------------------------------------
+| obs_rms_mean            | 0.0688   |
+| obs_rms_std             | 0.753    |
+| param_noise_stddev      | 0.034    |
+| reference_Q_mean        | -0.178   |
+| reference_Q_std         | 0.71     |
+| reference_action_mean   | 0.163    |
+| reference_action_std    | 0.758    |
+| reference_actor_Q_mean  | -0.084   |
+| reference_actor_Q_std   | 0.703    |
+| reference_perturbed_... | 0.726    |
+| rollout/Q_mean          | 0.174    |
+| rollout/actions_mean    | 0.695    |
+| rollout/actions_std     | 0.376    |
+| rollout/episode_steps   | 87.6     |
+| rollout/episodes        | 15       |
+| rollout/return          | -0.836   |
+| rollout/return_history  | -0.836   |
+| total/duration          | 383      |
+| total/episodes          | 15       |
+| total/epochs            | 14       |
+| total/steps             | 1.4e+03  |
+| total/steps_per_second  | 3.66     |
+| train/loss_actor        | -0.273   |
+| train/loss_critic       | 0.0327   |
+| train/param_noise_di... | 0.201    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 16
+--------------------------------------
+| obs_rms_mean            | 0.066    |
+| obs_rms_std             | 0.749    |
+| param_noise_stddev      | 0.0334   |
+| reference_Q_mean        | -0.242   |
+| reference_Q_std         | 0.804    |
+| reference_action_mean   | 0.159    |
+| reference_action_std    | 0.757    |
+| reference_actor_Q_mean  | -0.17    |
+| reference_actor_Q_std   | 0.803    |
+| reference_perturbed_... | 0.738    |
+| rollout/Q_mean          | 0.167    |
+| rollout/actions_mean    | 0.714    |
+| rollout/actions_std     | 0.37     |
+| rollout/episode_steps   | 89.9     |
+| rollout/episodes        | 16       |
+| rollout/return          | -1.09    |
+| rollout/return_history  | -1.09    |
+| total/duration          | 400      |
+| total/episodes          | 16       |
+| total/epochs            | 15       |
+| total/steps             | 1.5e+03  |
+| total/steps_per_second  | 3.75     |
+| train/loss_actor        | -0.251   |
+| train/loss_critic       | 0.0264   |
+| train/param_noise_di... | 0.2      |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 17
+--------------------------------------
+| obs_rms_mean            | 0.0671   |
+| obs_rms_std             | 0.747    |
+| param_noise_stddev      | 0.034    |
+| reference_Q_mean        | -0.242   |
+| reference_Q_std         | 0.84     |
+| reference_action_mean   | 0.0981   |
+| reference_action_std    | 0.772    |
+| reference_actor_Q_mean  | -0.169   |
+| reference_actor_Q_std   | 0.826    |
+| reference_perturbed_... | 0.737    |
+| rollout/Q_mean          | 0.184    |
+| rollout/actions_mean    | 0.73     |
+| rollout/actions_std     | 0.363    |
+| rollout/episode_steps   | 89.1     |
+| rollout/episodes        | 17       |
+| rollout/return          | -0.637   |
+| rollout/return_history  | -0.637   |
+| total/duration          | 435      |
+| total/episodes          | 17       |
+| total/epochs            | 16       |
+| total/steps             | 1.6e+03  |
+| total/steps_per_second  | 3.68     |
+| train/loss_actor        | -0.255   |
+| train/loss_critic       | 0.0227   |
+| train/param_noise_di... | 0.196    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 18
+--------------------------------------
+| obs_rms_mean            | 0.0661   |
+| obs_rms_std             | 0.745    |
+| param_noise_stddev      | 0.0383   |
+| reference_Q_mean        | -0.223   |
+| reference_Q_std         | 0.885    |
+| reference_action_mean   | 0.0846   |
+| reference_action_std    | 0.783    |
+| reference_actor_Q_mean  | -0.248   |
+| reference_actor_Q_std   | 0.891    |
+| reference_perturbed_... | 0.779    |
+| rollout/Q_mean          | 0.131    |
+| rollout/actions_mean    | 0.744    |
+| rollout/actions_std     | 0.357    |
+| rollout/episode_steps   | 91.7     |
+| rollout/episodes        | 18       |
+| rollout/return          | -1.68    |
+| rollout/return_history  | -1.68    |
+| total/duration          | 449      |
+| total/episodes          | 18       |
+| total/epochs            | 17       |
+| total/steps             | 1.7e+03  |
+| total/steps_per_second  | 3.79     |
+| train/loss_actor        | -0.201   |
+| train/loss_critic       | 0.0398   |
+| train/param_noise_di... | 0.193    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 19
+Episode ended nº 20
+--------------------------------------
+| obs_rms_mean            | 0.065    |
+| obs_rms_std             | 0.751    |
+| param_noise_stddev      | 0.0354   |
+| reference_Q_mean        | -0.252   |
+| reference_Q_std         | 0.907    |
+| reference_action_mean   | 0.082    |
+| reference_action_std    | 0.758    |
+| reference_actor_Q_mean  | -0.304   |
+| reference_actor_Q_std   | 0.945    |
+| reference_perturbed_... | 0.751    |
+| rollout/Q_mean          | 0.169    |
+| rollout/actions_mean    | 0.757    |
+| rollout/actions_std     | 0.351    |
+| rollout/episode_steps   | 88.8     |
+| rollout/episodes        | 20       |
+| rollout/return          | -0.776   |
+| rollout/return_history  | -0.776   |
+| total/duration          | 497      |
+| total/episodes          | 20       |
+| total/epochs            | 18       |
+| total/steps             | 1.8e+03  |
+| total/steps_per_second  | 3.62     |
+| train/loss_actor        | -0.243   |
+| train/loss_critic       | 0.0427   |
+| train/param_noise_di... | 0.212    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 21
+--------------------------------------
+| obs_rms_mean            | 0.0671   |
+| obs_rms_std             | 0.746    |
+| param_noise_stddev      | 0.0347   |
+| reference_Q_mean        | -0.309   |
+| reference_Q_std         | 0.987    |
+| reference_action_mean   | -0.0246  |
+| reference_action_std    | 0.765    |
+| reference_actor_Q_mean  | -0.177   |
+| reference_actor_Q_std   | 0.999    |
+| reference_perturbed_... | 0.741    |
+| rollout/Q_mean          | 0.209    |
+| rollout/actions_mean    | 0.769    |
+| rollout/actions_std     | 0.346    |
+| rollout/episode_steps   | 88.1     |
+| rollout/episodes        | 21       |
+| rollout/return          | -0.397   |
+| rollout/return_history  | -0.397   |
+| total/duration          | 525      |
+| total/episodes          | 21       |
+| total/epochs            | 19       |
+| total/steps             | 1.9e+03  |
+| total/steps_per_second  | 3.62     |
+| train/loss_actor        | -0.273   |
+| train/loss_critic       | 0.045    |
+| train/param_noise_di... | 0.203    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 22
+--------------------------------------
+| obs_rms_mean            | 0.0686   |
+| obs_rms_std             | 0.74     |
+| param_noise_stddev      | 0.0376   |
+| reference_Q_mean        | -0.354   |
+| reference_Q_std         | 1.1      |
+| reference_action_mean   | -0.0109  |
+| reference_action_std    | 0.782    |
+| reference_actor_Q_mean  | -0.315   |
+| reference_actor_Q_std   | 1.11     |
+| reference_perturbed_... | 0.785    |
+| rollout/Q_mean          | 0.225    |
+| rollout/actions_mean    | 0.78     |
+| rollout/actions_std     | 0.34     |
+| rollout/episode_steps   | 87.1     |
+| rollout/episodes        | 22       |
+| rollout/return          | -0.0534  |
+| rollout/return_history  | -0.0534  |
+| total/duration          | 556      |
+| total/episodes          | 22       |
+| total/epochs            | 20       |
+| total/steps             | 2e+03    |
+| total/steps_per_second  | 3.6      |
+| train/loss_actor        | -0.283   |
+| train/loss_critic       | 0.0472   |
+| train/param_noise_di... | 0.198    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 23
+--------------------------------------
+| obs_rms_mean            | 0.0658   |
+| obs_rms_std             | 0.74     |
+| param_noise_stddev      | 0.0391   |
+| reference_Q_mean        | -0.327   |
+| reference_Q_std         | 1.17     |
+| reference_action_mean   | 0.0607   |
+| reference_action_std    | 0.802    |
+| reference_actor_Q_mean  | -0.31    |
+| reference_actor_Q_std   | 1.18     |
+| reference_perturbed_... | 0.779    |
+| rollout/Q_mean          | 0.168    |
+| rollout/actions_mean    | 0.789    |
+| rollout/actions_std     | 0.335    |
+| rollout/episode_steps   | 89.1     |
+| rollout/episodes        | 23       |
+| rollout/return          | -1.07    |
+| rollout/return_history  | -1.07    |
+| total/duration          | 567      |
+| total/episodes          | 23       |
+| total/epochs            | 21       |
+| total/steps             | 2.1e+03  |
+| total/steps_per_second  | 3.7      |
+| train/loss_actor        | -0.279   |
+| train/loss_critic       | 0.0609   |
+| train/param_noise_di... | 0.197    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 24
+--------------------------------------
+| obs_rms_mean            | 0.0662   |
+| obs_rms_std             | 0.739    |
+| param_noise_stddev      | 0.0361   |
+| reference_Q_mean        | -0.425   |
+| reference_Q_std         | 1.24     |
+| reference_action_mean   | 0.139    |
+| reference_action_std    | 0.83     |
+| reference_actor_Q_mean  | -0.327   |
+| reference_actor_Q_std   | 1.22     |
+| reference_perturbed_... | 0.823    |
+| rollout/Q_mean          | 0.174    |
+| rollout/actions_mean    | 0.798    |
+| rollout/actions_std     | 0.329    |
+| rollout/episode_steps   | 88.9     |
+| rollout/episodes        | 24       |
+| rollout/return          | -1.07    |
+| rollout/return_history  | -1.07    |
+| total/duration          | 579      |
+| total/episodes          | 24       |
+| total/epochs            | 22       |
+| total/steps             | 2.2e+03  |
+| total/steps_per_second  | 3.8      |
+| train/loss_actor        | -0.298   |
+| train/loss_critic       | 0.0512   |
+| train/param_noise_di... | 0.206    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 25
+Episode ended nº 26
+--------------------------------------
+| obs_rms_mean            | 0.0634   |
+| obs_rms_std             | 0.746    |
+| param_noise_stddev      | 0.0354   |
+| reference_Q_mean        | -0.376   |
+| reference_Q_std         | 1.17     |
+| reference_action_mean   | 0.146    |
+| reference_action_std    | 0.844    |
+| reference_actor_Q_mean  | -0.203   |
+| reference_actor_Q_std   | 1.15     |
+| reference_perturbed_... | 0.837    |
+| rollout/Q_mean          | 0.162    |
+| rollout/actions_mean    | 0.807    |
+| rollout/actions_std     | 0.325    |
+| rollout/episode_steps   | 88.3     |
+| rollout/episodes        | 26       |
+| rollout/return          | -1.12    |
+| rollout/return_history  | -1.12    |
+| total/duration          | 615      |
+| total/episodes          | 26       |
+| total/epochs            | 23       |
+| total/steps             | 2.3e+03  |
+| total/steps_per_second  | 3.74     |
+| train/loss_actor        | -0.258   |
+| train/loss_critic       | 0.0674   |
+| train/param_noise_di... | 0.195    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 27
+--------------------------------------
+| obs_rms_mean            | 0.0647   |
+| obs_rms_std             | 0.762    |
+| param_noise_stddev      | 0.0361   |
+| reference_Q_mean        | -0.426   |
+| reference_Q_std         | 1.3      |
+| reference_action_mean   | 0.164    |
+| reference_action_std    | 0.868    |
+| reference_actor_Q_mean  | -0.301   |
+| reference_actor_Q_std   | 1.29     |
+| reference_perturbed_... | 0.839    |
+| rollout/Q_mean          | 0.202    |
+| rollout/actions_mean    | 0.815    |
+| rollout/actions_std     | 0.32     |
+| rollout/episode_steps   | 87.8     |
+| rollout/episodes        | 27       |
+| rollout/return          | -0.866   |
+| rollout/return_history  | -0.866   |
+| total/duration          | 654      |
+| total/episodes          | 27       |
+| total/epochs            | 24       |
+| total/steps             | 2.4e+03  |
+| total/steps_per_second  | 3.67     |
+| train/loss_actor        | -0.328   |
+| train/loss_critic       | 0.0392   |
+| train/param_noise_di... | 0.198    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 28
+--------------------------------------
+| obs_rms_mean            | 0.0616   |
+| obs_rms_std             | 0.759    |
+| param_noise_stddev      | 0.0415   |
+| reference_Q_mean        | -0.503   |
+| reference_Q_std         | 1.48     |
+| reference_action_mean   | 0.164    |
+| reference_action_std    | 0.861    |
+| reference_actor_Q_mean  | -0.457   |
+| reference_actor_Q_std   | 1.48     |
+| reference_perturbed_... | 0.845    |
+| rollout/Q_mean          | 0.244    |
+| rollout/actions_mean    | 0.822    |
+| rollout/actions_std     | 0.316    |
+| rollout/episode_steps   | 87       |
+| rollout/episodes        | 28       |
+| rollout/return          | -0.595   |
+| rollout/return_history  | -0.595   |
+| total/duration          | 693      |
+| total/episodes          | 28       |
+| total/epochs            | 25       |
+| total/steps             | 2.5e+03  |
+| total/steps_per_second  | 3.61     |
+| train/loss_actor        | -0.311   |
+| train/loss_critic       | 0.0538   |
+| train/param_noise_di... | 0.192    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 29
+Episode ended nº 30
+--------------------------------------
+| obs_rms_mean            | 0.0585   |
+| obs_rms_std             | 0.758    |
+| param_noise_stddev      | 0.0441   |
+| reference_Q_mean        | -0.532   |
+| reference_Q_std         | 1.48     |
+| reference_action_mean   | 0.145    |
+| reference_action_std    | 0.878    |
+| reference_actor_Q_mean  | -0.581   |
+| reference_actor_Q_std   | 1.54     |
+| reference_perturbed_... | 0.841    |
+| rollout/Q_mean          | 0.268    |
+| rollout/actions_mean    | 0.829    |
+| rollout/actions_std     | 0.311    |
+| rollout/episode_steps   | 86.4     |
+| rollout/episodes        | 30       |
+| rollout/return          | -0.197   |
+| rollout/return_history  | -0.197   |
+| total/duration          | 745      |
+| total/episodes          | 30       |
+| total/epochs            | 26       |
+| total/steps             | 2.6e+03  |
+| total/steps_per_second  | 3.49     |
+| train/loss_actor        | -0.332   |
+| train/loss_critic       | 0.111    |
+| train/param_noise_di... | 0.198    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 31
+--------------------------------------
+| obs_rms_mean            | 0.0573   |
+| obs_rms_std             | 0.756    |
+| param_noise_stddev      | 0.0468   |
+| reference_Q_mean        | -0.651   |
+| reference_Q_std         | 1.56     |
+| reference_action_mean   | 0.166    |
+| reference_action_std    | 0.882    |
+| reference_actor_Q_mean  | -0.606   |
+| reference_actor_Q_std   | 1.55     |
+| reference_perturbed_... | 0.874    |
+| rollout/Q_mean          | 0.3      |
+| rollout/actions_mean    | 0.835    |
+| rollout/actions_std     | 0.307    |
+| rollout/episode_steps   | 86       |
+| rollout/episodes        | 31       |
+| rollout/return          | 0.00563  |
+| rollout/return_history  | 0.00563  |
+| total/duration          | 781      |
+| total/episodes          | 31       |
+| total/epochs            | 27       |
+| total/steps             | 2.7e+03  |
+| total/steps_per_second  | 3.46     |
+| train/loss_actor        | -0.368   |
+| train/loss_critic       | 0.0951   |
+| train/param_noise_di... | 0.201    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 32
+--------------------------------------
+| obs_rms_mean            | 0.0562   |
+| obs_rms_std             | 0.75     |
+| param_noise_stddev      | 0.0441   |
+| reference_Q_mean        | -0.565   |
+| reference_Q_std         | 1.69     |
+| reference_action_mean   | 0.109    |
+| reference_action_std    | 0.857    |
+| reference_actor_Q_mean  | -0.563   |
+| reference_actor_Q_std   | 1.7      |
+| reference_perturbed_... | 0.894    |
+| rollout/Q_mean          | 0.268    |
+| rollout/actions_mean    | 0.841    |
+| rollout/actions_std     | 0.303    |
+| rollout/episode_steps   | 87       |
+| rollout/episodes        | 32       |
+| rollout/return          | -0.288   |
+| rollout/return_history  | -0.288   |
+| total/duration          | 803      |
+| total/episodes          | 32       |
+| total/epochs            | 28       |
+| total/steps             | 2.8e+03  |
+| total/steps_per_second  | 3.49     |
+| train/loss_actor        | -0.296   |
+| train/loss_critic       | 0.0863   |
+| train/param_noise_di... | 0.207    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 33
+--------------------------------------
+| obs_rms_mean            | 0.0551   |
+| obs_rms_std             | 0.744    |
+| param_noise_stddev      | 0.045    |
+| reference_Q_mean        | -0.925   |
+| reference_Q_std         | 1.78     |
+| reference_action_mean   | 0.0578   |
+| reference_action_std    | 0.875    |
+| reference_actor_Q_mean  | -0.758   |
+| reference_actor_Q_std   | 1.75     |
+| reference_perturbed_... | 0.851    |
+| rollout/Q_mean          | 0.293    |
+| rollout/actions_mean    | 0.846    |
+| rollout/actions_std     | 0.299    |
+| rollout/episode_steps   | 87.1     |
+| rollout/episodes        | 33       |
+| rollout/return          | -0.16    |
+| rollout/return_history  | -0.16    |
+| total/duration          | 841      |
+| total/episodes          | 33       |
+| total/epochs            | 29       |
+| total/steps             | 2.9e+03  |
+| total/steps_per_second  | 3.45     |
+| train/loss_actor        | -0.372   |
+| train/loss_critic       | 0.102    |
+| train/param_noise_di... | 0.205    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 34
+--------------------------------------
+| obs_rms_mean            | 0.0551   |
+| obs_rms_std             | 0.739    |
+| param_noise_stddev      | 0.0424   |
+| reference_Q_mean        | -0.766   |
+| reference_Q_std         | 1.82     |
+| reference_action_mean   | 0.074    |
+| reference_action_std    | 0.882    |
+| reference_actor_Q_mean  | -0.608   |
+| reference_actor_Q_std   | 1.77     |
+| reference_perturbed_... | 0.862    |
+| rollout/Q_mean          | 0.313    |
+| rollout/actions_mean    | 0.851    |
+| rollout/actions_std     | 0.296    |
+| rollout/episode_steps   | 87.2     |
+| rollout/episodes        | 34       |
+| rollout/return          | -0.067   |
+| rollout/return_history  | -0.067   |
+| total/duration          | 876      |
+| total/episodes          | 34       |
+| total/epochs            | 30       |
+| total/steps             | 3e+03    |
+| total/steps_per_second  | 3.43     |
+| train/loss_actor        | -0.401   |
+| train/loss_critic       | 0.121    |
+| train/param_noise_di... | 0.213    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 35
+Episode ended nº 36
+--------------------------------------
+| obs_rms_mean            | 0.0557   |
+| obs_rms_std             | 0.737    |
+| param_noise_stddev      | 0.045    |
+| reference_Q_mean        | -0.952   |
+| reference_Q_std         | 2.1      |
+| reference_action_mean   | 0.0367   |
+| reference_action_std    | 0.914    |
+| reference_actor_Q_mean  | -0.929   |
+| reference_actor_Q_std   | 2.07     |
+| reference_perturbed_... | 0.888    |
+| rollout/Q_mean          | 0.352    |
+| rollout/actions_mean    | 0.856    |
+| rollout/actions_std     | 0.292    |
+| rollout/episode_steps   | 86.1     |
+| rollout/episodes        | 36       |
+| rollout/return          | 0.354    |
+| rollout/return_history  | 0.354    |
+| total/duration          | 927      |
+| total/episodes          | 36       |
+| total/epochs            | 31       |
+| total/steps             | 3.1e+03  |
+| total/steps_per_second  | 3.34     |
+| train/loss_actor        | -0.423   |
+| train/loss_critic       | 0.0662   |
+| train/param_noise_di... | 0.203    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 37
+--------------------------------------
+| obs_rms_mean            | 0.0557   |
+| obs_rms_std             | 0.736    |
+| param_noise_stddev      | 0.0487   |
+| reference_Q_mean        | -0.953   |
+| reference_Q_std         | 2.18     |
+| reference_action_mean   | 0.0334   |
+| reference_action_std    | 0.922    |
+| reference_actor_Q_mean  | -0.918   |
+| reference_actor_Q_std   | 2.15     |
+| reference_perturbed_... | 0.902    |
+| rollout/Q_mean          | 0.392    |
+| rollout/actions_mean    | 0.86     |
+| rollout/actions_std     | 0.288    |
+| rollout/episode_steps   | 85.5     |
+| rollout/episodes        | 37       |
+| rollout/return          | 0.542    |
+| rollout/return_history  | 0.542    |
+| total/duration          | 958      |
+| total/episodes          | 37       |
+| total/epochs            | 32       |
+| total/steps             | 3.2e+03  |
+| total/steps_per_second  | 3.34     |
+| train/loss_actor        | -0.438   |
+| train/loss_critic       | 0.0847   |
+| train/param_noise_di... | 0.196    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 38
+Episode ended nº 39
+--------------------------------------
+| obs_rms_mean            | 0.0556   |
+| obs_rms_std             | 0.733    |
+| param_noise_stddev      | 0.0459   |
+| reference_Q_mean        | -1.11    |
+| reference_Q_std         | 2.23     |
+| reference_action_mean   | 0.0839   |
+| reference_action_std    | 0.93     |
+| reference_actor_Q_mean  | -0.876   |
+| reference_actor_Q_std   | 2.17     |
+| reference_perturbed_... | 0.896    |
+| rollout/Q_mean          | 0.428    |
+| rollout/actions_mean    | 0.865    |
+| rollout/actions_std     | 0.285    |
+| rollout/episode_steps   | 84.5     |
+| rollout/episodes        | 39       |
+| rollout/return          | 0.91     |
+| rollout/return_history  | 0.91     |
+| total/duration          | 1.01e+03 |
+| total/episodes          | 39       |
+| total/epochs            | 33       |
+| total/steps             | 3.3e+03  |
+| total/steps_per_second  | 3.28     |
+| train/loss_actor        | -0.532   |
+| train/loss_critic       | 0.0927   |
+| train/param_noise_di... | 0.215    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 40
+--------------------------------------
+| obs_rms_mean            | 0.0555   |
+| obs_rms_std             | 0.732    |
+| param_noise_stddev      | 0.0459   |
+| reference_Q_mean        | -1.06    |
+| reference_Q_std         | 2.19     |
+| reference_action_mean   | 0.14     |
+| reference_action_std    | 0.945    |
+| reference_actor_Q_mean  | -0.912   |
+| reference_actor_Q_std   | 2.16     |
+| reference_perturbed_... | 0.939    |
+| rollout/Q_mean          | 0.442    |
+| rollout/actions_mean    | 0.869    |
+| rollout/actions_std     | 0.282    |
+| rollout/episode_steps   | 84.8     |
+| rollout/episodes        | 40       |
+| rollout/return          | 0.954    |
+| rollout/return_history  | 0.954    |
+| total/duration          | 1.03e+03 |
+| total/episodes          | 40       |
+| total/epochs            | 34       |
+| total/steps             | 3.4e+03  |
+| total/steps_per_second  | 3.29     |
+| train/loss_actor        | -0.531   |
+| train/loss_critic       | 0.0476   |
+| train/param_noise_di... | 0.2      |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 41
+--------------------------------------
+| obs_rms_mean            | 0.0556   |
+| obs_rms_std             | 0.73     |
+| param_noise_stddev      | 0.0507   |
+| reference_Q_mean        | -1.18    |
+| reference_Q_std         | 2.36     |
+| reference_action_mean   | 0.158    |
+| reference_action_std    | 0.941    |
+| reference_actor_Q_mean  | -1.1     |
+| reference_actor_Q_std   | 2.29     |
+| reference_perturbed_... | 0.944    |
+| rollout/Q_mean          | 0.482    |
+| rollout/actions_mean    | 0.872    |
+| rollout/actions_std     | 0.278    |
+| rollout/episode_steps   | 84.3     |
+| rollout/episodes        | 41       |
+| rollout/return          | 1.12     |
+| rollout/return_history  | 1.12     |
+| total/duration          | 1.07e+03 |
+| total/episodes          | 41       |
+| total/epochs            | 35       |
+| total/steps             | 3.5e+03  |
+| total/steps_per_second  | 3.28     |
+| train/loss_actor        | -0.549   |
+| train/loss_critic       | 0.0763   |
+| train/param_noise_di... | 0.187    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 42
+Episode ended nº 43
+--------------------------------------
+| obs_rms_mean            | 0.055    |
+| obs_rms_std             | 0.733    |
+| param_noise_stddev      | 0.0487   |
+| reference_Q_mean        | -1.22    |
+| reference_Q_std         | 2.31     |
+| reference_action_mean   | 0.203    |
+| reference_action_std    | 0.919    |
+| reference_actor_Q_mean  | -1.07    |
+| reference_actor_Q_std   | 2.28     |
+| reference_perturbed_... | 0.912    |
+| rollout/Q_mean          | 0.516    |
+| rollout/actions_mean    | 0.876    |
+| rollout/actions_std     | 0.275    |
+| rollout/episode_steps   | 83.2     |
+| rollout/episodes        | 43       |
+| rollout/return          | 1.43     |
+| rollout/return_history  | 1.43     |
+| total/duration          | 1.12e+03 |
+| total/episodes          | 43       |
+| total/epochs            | 36       |
+| total/steps             | 3.6e+03  |
+| total/steps_per_second  | 3.21     |
+| train/loss_actor        | -0.559   |
+| train/loss_critic       | 0.0833   |
+| train/param_noise_di... | 0.217    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 44
+Episode ended nº 45
+--------------------------------------
+| obs_rms_mean            | 0.0551   |
+| obs_rms_std             | 0.731    |
+| param_noise_stddev      | 0.0441   |
+| reference_Q_mean        | -1.49    |
+| reference_Q_std         | 2.61     |
+| reference_action_mean   | 0.206    |
+| reference_action_std    | 0.906    |
+| reference_actor_Q_mean  | -1.31    |
+| reference_actor_Q_std   | 2.59     |
+| reference_perturbed_... | 0.932    |
+| rollout/Q_mean          | 0.552    |
+| rollout/actions_mean    | 0.879    |
+| rollout/actions_std     | 0.272    |
+| rollout/episode_steps   | 82.2     |
+| rollout/episodes        | 45       |
+| rollout/return          | 1.71     |
+| rollout/return_history  | 1.71     |
+| total/duration          | 1.15e+03 |
+| total/episodes          | 45       |
+| total/epochs            | 37       |
+| total/steps             | 3.7e+03  |
+| total/steps_per_second  | 3.22     |
+| train/loss_actor        | -0.658   |
+| train/loss_critic       | 0.0601   |
+| train/param_noise_di... | 0.221    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 46
+--------------------------------------
+| obs_rms_mean            | 0.0544   |
+| obs_rms_std             | 0.734    |
+| param_noise_stddev      | 0.0441   |
+| reference_Q_mean        | -1.3     |
+| reference_Q_std         | 2.54     |
+| reference_action_mean   | 0.144    |
+| reference_action_std    | 0.952    |
+| reference_actor_Q_mean  | -1.22    |
+| reference_actor_Q_std   | 2.54     |
+| reference_perturbed_... | 0.905    |
+| rollout/Q_mean          | 0.589    |
+| rollout/actions_mean    | 0.882    |
+| rollout/actions_std     | 0.269    |
+| rollout/episode_steps   | 81.8     |
+| rollout/episodes        | 46       |
+| rollout/return          | 1.84     |
+| rollout/return_history  | 1.84     |
+| total/duration          | 1.18e+03 |
+| total/episodes          | 46       |
+| total/epochs            | 38       |
+| total/steps             | 3.8e+03  |
+| total/steps_per_second  | 3.21     |
+| train/loss_actor        | -0.714   |
+| train/loss_critic       | 0.0721   |
+| train/param_noise_di... | 0.209    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 47
+Episode ended nº 48
+--------------------------------------
+| obs_rms_mean            | 0.0558   |
+| obs_rms_std             | 0.738    |
+| param_noise_stddev      | 0.0517   |
+| reference_Q_mean        | -1.54    |
+| reference_Q_std         | 2.66     |
+| reference_action_mean   | 0.127    |
+| reference_action_std    | 0.957    |
+| reference_actor_Q_mean  | -1.41    |
+| reference_actor_Q_std   | 2.65     |
+| reference_perturbed_... | 0.947    |
+| rollout/Q_mean          | 0.62     |
+| rollout/actions_mean    | 0.885    |
+| rollout/actions_std     | 0.267    |
+| rollout/episode_steps   | 80.9     |
+| rollout/episodes        | 48       |
+| rollout/return          | 2.09     |
+| rollout/return_history  | 2.09     |
+| total/duration          | 1.22e+03 |
+| total/episodes          | 48       |
+| total/epochs            | 39       |
+| total/steps             | 3.9e+03  |
+| total/steps_per_second  | 3.19     |
+| train/loss_actor        | -0.672   |
+| train/loss_critic       | 0.0552   |
+| train/param_noise_di... | 0.186    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 49
+--------------------------------------
+| obs_rms_mean            | 0.0548   |
+| obs_rms_std             | 0.737    |
+| param_noise_stddev      | 0.0538   |
+| reference_Q_mean        | -1.47    |
+| reference_Q_std         | 2.76     |
+| reference_action_mean   | 0.131    |
+| reference_action_std    | 0.965    |
+| reference_actor_Q_mean  | -1.27    |
+| reference_actor_Q_std   | 2.71     |
+| reference_perturbed_... | 0.94     |
+| rollout/Q_mean          | 0.654    |
+| rollout/actions_mean    | 0.888    |
+| rollout/actions_std     | 0.264    |
+| rollout/episode_steps   | 80.7     |
+| rollout/episodes        | 49       |
+| rollout/return          | 2.2      |
+| rollout/return_history  | 2.2      |
+| total/duration          | 1.27e+03 |
+| total/episodes          | 49       |
+| total/epochs            | 40       |
+| total/steps             | 4e+03    |
+| total/steps_per_second  | 3.15     |
+| train/loss_actor        | -0.628   |
+| train/loss_critic       | 0.0995   |
+| train/param_noise_di... | 0.216    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 50
+Episode ended nº 51
+--------------------------------------
+| obs_rms_mean            | 0.0523   |
+| obs_rms_std             | 0.742    |
+| param_noise_stddev      | 0.0571   |
+| reference_Q_mean        | -1.37    |
+| reference_Q_std         | 2.8      |
+| reference_action_mean   | 0.122    |
+| reference_action_std    | 0.981    |
+| reference_actor_Q_mean  | -1.23    |
+| reference_actor_Q_std   | 2.77     |
+| reference_perturbed_... | 0.954    |
+| rollout/Q_mean          | 0.686    |
+| rollout/actions_mean    | 0.891    |
+| rollout/actions_std     | 0.261    |
+| rollout/episode_steps   | 79.9     |
+| rollout/episodes        | 51       |
+| rollout/return          | 2.42     |
+| rollout/return_history  | 2.42     |
+| total/duration          | 1.33e+03 |
+| total/episodes          | 51       |
+| total/epochs            | 41       |
+| total/steps             | 4.1e+03  |
+| total/steps_per_second  | 3.08     |
+| train/loss_actor        | -0.73    |
+| train/loss_critic       | 0.114    |
+| train/param_noise_di... | 0.198    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 52
+--------------------------------------
+| obs_rms_mean            | 0.0527   |
+| obs_rms_std             | 0.743    |
+| param_noise_stddev      | 0.0571   |
+| reference_Q_mean        | -1.5     |
+| reference_Q_std         | 2.84     |
+| reference_action_mean   | 0.11     |
+| reference_action_std    | 0.984    |
+| reference_actor_Q_mean  | -1.37    |
+| reference_actor_Q_std   | 2.83     |
+| reference_perturbed_... | 0.957    |
+| rollout/Q_mean          | 0.712    |
+| rollout/actions_mean    | 0.894    |
+| rollout/actions_std     | 0.259    |
+| rollout/episode_steps   | 79.5     |
+| rollout/episodes        | 52       |
+| rollout/return          | 2.53     |
+| rollout/return_history  | 2.53     |
+| total/duration          | 1.37e+03 |
+| total/episodes          | 52       |
+| total/epochs            | 42       |
+| total/steps             | 4.2e+03  |
+| total/steps_per_second  | 3.07     |
+| train/loss_actor        | -0.746   |
+| train/loss_critic       | 0.0979   |
+| train/param_noise_di... | 0.213    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 53
+Episode ended nº 54
+--------------------------------------
+| obs_rms_mean            | 0.0515   |
+| obs_rms_std             | 0.746    |
+| param_noise_stddev      | 0.0477   |
+| reference_Q_mean        | -1.64    |
+| reference_Q_std         | 2.96     |
+| reference_action_mean   | 0.0972   |
+| reference_action_std    | 0.977    |
+| reference_actor_Q_mean  | -1.49    |
+| reference_actor_Q_std   | 2.95     |
+| reference_perturbed_... | 0.956    |
+| rollout/Q_mean          | 0.737    |
+| rollout/actions_mean    | 0.896    |
+| rollout/actions_std     | 0.256    |
+| rollout/episode_steps   | 79.1     |
+| rollout/episodes        | 54       |
+| rollout/return          | 2.65     |
+| rollout/return_history  | 2.65     |
+| total/duration          | 1.4e+03  |
+| total/episodes          | 54       |
+| total/epochs            | 43       |
+| total/steps             | 4.3e+03  |
+| total/steps_per_second  | 3.06     |
+| train/loss_actor        | -0.932   |
+| train/loss_critic       | 0.06     |
+| train/param_noise_di... | 0.226    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 55
+Episode ended nº 56
+--------------------------------------
+| obs_rms_mean            | 0.0545   |
+| obs_rms_std             | 0.75     |
+| param_noise_stddev      | 0.0459   |
+| reference_Q_mean        | -1.57    |
+| reference_Q_std         | 3.07     |
+| reference_action_mean   | 0.0809   |
+| reference_action_std    | 0.972    |
+| reference_actor_Q_mean  | -1.7     |
+| reference_actor_Q_std   | 3.09     |
+| reference_perturbed_... | 0.953    |
+| rollout/Q_mean          | 0.772    |
+| rollout/actions_mean    | 0.898    |
+| rollout/actions_std     | 0.254    |
+| rollout/episode_steps   | 78.4     |
+| rollout/episodes        | 56       |
+| rollout/return          | 2.85     |
+| rollout/return_history  | 2.85     |
+| total/duration          | 1.44e+03 |
+| total/episodes          | 56       |
+| total/epochs            | 44       |
+| total/steps             | 4.4e+03  |
+| total/steps_per_second  | 3.06     |
+| train/loss_actor        | -0.962   |
+| train/loss_critic       | 0.105    |
+| train/param_noise_di... | 0.217    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 57
+--------------------------------------
+| obs_rms_mean            | 0.0539   |
+| obs_rms_std             | 0.751    |
+| param_noise_stddev      | 0.0507   |
+| reference_Q_mean        | -1.77    |
+| reference_Q_std         | 3.13     |
+| reference_action_mean   | 0.0711   |
+| reference_action_std    | 0.972    |
+| reference_actor_Q_mean  | -1.6     |
+| reference_actor_Q_std   | 3.08     |
+| reference_perturbed_... | 0.981    |
+| rollout/Q_mean          | 0.806    |
+| rollout/actions_mean    | 0.901    |
+| rollout/actions_std     | 0.251    |
+| rollout/episode_steps   | 78.1     |
+| rollout/episodes        | 57       |
+| rollout/return          | 2.94     |
+| rollout/return_history  | 2.94     |
+| total/duration          | 1.48e+03 |
+| total/episodes          | 57       |
+| total/epochs            | 45       |
+| total/steps             | 4.5e+03  |
+| total/steps_per_second  | 3.03     |
+| train/loss_actor        | -0.875   |
+| train/loss_critic       | 0.0554   |
+| train/param_noise_di... | 0.194    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 58
+Episode ended nº 59
+--------------------------------------
+| obs_rms_mean            | 0.0522   |
+| obs_rms_std             | 0.756    |
+| param_noise_stddev      | 0.0517   |
+| reference_Q_mean        | -1.76    |
+| reference_Q_std         | 3.17     |
+| reference_action_mean   | 0.0638   |
+| reference_action_std    | 0.981    |
+| reference_actor_Q_mean  | -1.7     |
+| reference_actor_Q_std   | 3.18     |
+| reference_perturbed_... | 0.966    |
+| rollout/Q_mean          | 0.837    |
+| rollout/actions_mean    | 0.903    |
+| rollout/actions_std     | 0.249    |
+| rollout/episode_steps   | 77.6     |
+| rollout/episodes        | 59       |
+| rollout/return          | 3.13     |
+| rollout/return_history  | 3.13     |
+| total/duration          | 1.54e+03 |
+| total/episodes          | 59       |
+| total/epochs            | 46       |
+| total/steps             | 4.6e+03  |
+| total/steps_per_second  | 2.99     |
+| train/loss_actor        | -0.913   |
+| train/loss_critic       | 0.0884   |
+| train/param_noise_di... | 0.22     |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 60
+Episode ended nº 61
+--------------------------------------
+| obs_rms_mean            | 0.0541   |
+| obs_rms_std             | 0.76     |
+| param_noise_stddev      | 0.0487   |
+| reference_Q_mean        | -1.96    |
+| reference_Q_std         | 3.34     |
+| reference_action_mean   | 0.0397   |
+| reference_action_std    | 0.982    |
+| reference_actor_Q_mean  | -1.88    |
+| reference_actor_Q_std   | 3.32     |
+| reference_perturbed_... | 0.971    |
+| rollout/Q_mean          | 0.871    |
+| rollout/actions_mean    | 0.905    |
+| rollout/actions_std     | 0.247    |
+| rollout/episode_steps   | 76.9     |
+| rollout/episodes        | 61       |
+| rollout/return          | 3.29     |
+| rollout/return_history  | 3.29     |
+| total/duration          | 1.58e+03 |
+| total/episodes          | 61       |
+| total/epochs            | 47       |
+| total/steps             | 4.7e+03  |
+| total/steps_per_second  | 2.98     |
+| train/loss_actor        | -0.848   |
+| train/loss_critic       | 0.0594   |
+| train/param_noise_di... | 0.209    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 62
+--------------------------------------
+| obs_rms_mean            | 0.0547   |
+| obs_rms_std             | 0.762    |
+| param_noise_stddev      | 0.0477   |
+| reference_Q_mean        | -1.92    |
+| reference_Q_std         | 3.33     |
+| reference_action_mean   | 0.00931  |
+| reference_action_std    | 0.991    |
+| reference_actor_Q_mean  | -1.73    |
+| reference_actor_Q_std   | 3.28     |
+| reference_perturbed_... | 0.979    |
+| rollout/Q_mean          | 0.908    |
+| rollout/actions_mean    | 0.907    |
+| rollout/actions_std     | 0.244    |
+| rollout/episode_steps   | 76.6     |
+| rollout/episodes        | 62       |
+| rollout/return          | 3.37     |
+| rollout/return_history  | 3.37     |
+| total/duration          | 1.61e+03 |
+| total/episodes          | 62       |
+| total/epochs            | 48       |
+| total/steps             | 4.8e+03  |
+| total/steps_per_second  | 2.97     |
+| train/loss_actor        | -1.04    |
+| train/loss_critic       | 0.0705   |
+| train/param_noise_di... | 0.202    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 63
+Episode ended nº 64
+--------------------------------------
+| obs_rms_mean            | 0.0528   |
+| obs_rms_std             | 0.765    |
+| param_noise_stddev      | 0.0459   |
+| reference_Q_mean        | -1.98    |
+| reference_Q_std         | 3.34     |
+| reference_action_mean   | 0.0361   |
+| reference_action_std    | 0.983    |
+| reference_actor_Q_mean  | -1.9     |
+| reference_actor_Q_std   | 3.31     |
+| reference_perturbed_... | 0.971    |
+| rollout/Q_mean          | 0.938    |
+| rollout/actions_mean    | 0.909    |
+| rollout/actions_std     | 0.242    |
+| rollout/episode_steps   | 76.1     |
+| rollout/episodes        | 64       |
+| rollout/return          | 3.52     |
+| rollout/return_history  | 3.52     |
+| total/duration          | 1.66e+03 |
+| total/episodes          | 64       |
+| total/epochs            | 49       |
+| total/steps             | 4.9e+03  |
+| total/steps_per_second  | 2.96     |
+| train/loss_actor        | -1.07    |
+| train/loss_critic       | 0.102    |
+| train/param_noise_di... | 0.201    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 65
+Episode ended nº 66
+--------------------------------------
+| obs_rms_mean            | 0.0548   |
+| obs_rms_std             | 0.768    |
+| param_noise_stddev      | 0.0497   |
+| reference_Q_mean        | -2.14    |
+| reference_Q_std         | 3.51     |
+| reference_action_mean   | 0.0241   |
+| reference_action_std    | 0.985    |
+| reference_actor_Q_mean  | -1.96    |
+| reference_actor_Q_std   | 3.46     |
+| reference_perturbed_... | 0.956    |
+| rollout/Q_mean          | 0.968    |
+| rollout/actions_mean    | 0.911    |
+| rollout/actions_std     | 0.24     |
+| rollout/episode_steps   | 75.6     |
+| rollout/episodes        | 66       |
+| rollout/return          | 3.66     |
+| rollout/return_history  | 3.66     |
+| total/duration          | 1.69e+03 |
+| total/episodes          | 66       |
+| total/epochs            | 50       |
+| total/steps             | 5e+03    |
+| total/steps_per_second  | 2.95     |
+| train/loss_actor        | -1.06    |
+| train/loss_critic       | 0.0516   |
+| train/param_noise_di... | 0.192    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 67
+--------------------------------------
+| obs_rms_mean            | 0.0559   |
+| obs_rms_std             | 0.771    |
+| param_noise_stddev      | 0.0497   |
+| reference_Q_mean        | -2.29    |
+| reference_Q_std         | 3.62     |
+| reference_action_mean   | 0.00517  |
+| reference_action_std    | 0.989    |
+| reference_actor_Q_mean  | -2.34    |
+| reference_actor_Q_std   | 3.62     |
+| reference_perturbed_... | 0.963    |
+| rollout/Q_mean          | 1        |
+| rollout/actions_mean    | 0.912    |
+| rollout/actions_std     | 0.238    |
+| rollout/episode_steps   | 75.3     |
+| rollout/episodes        | 67       |
+| rollout/return          | 3.73     |
+| rollout/return_history  | 3.73     |
+| total/duration          | 1.73e+03 |
+| total/episodes          | 67       |
+| total/epochs            | 51       |
+| total/steps             | 5.1e+03  |
+| total/steps_per_second  | 2.95     |
+| train/loss_actor        | -1.05    |
+| train/loss_critic       | 0.0866   |
+| train/param_noise_di... | 0.208    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 68
+Episode ended nº 69
+--------------------------------------
+| obs_rms_mean            | 0.0554   |
+| obs_rms_std             | 0.775    |
+| param_noise_stddev      | 0.056    |
+| reference_Q_mean        | -2.21    |
+| reference_Q_std         | 3.57     |
+| reference_action_mean   | 0.00692  |
+| reference_action_std    | 0.986    |
+| reference_actor_Q_mean  | -2.28    |
+| reference_actor_Q_std   | 3.55     |
+| reference_perturbed_... | 0.99     |
+| rollout/Q_mean          | 1.03     |
+| rollout/actions_mean    | 0.914    |
+| rollout/actions_std     | 0.236    |
+| rollout/episode_steps   | 74.8     |
+| rollout/episodes        | 69       |
+| rollout/return          | 3.85     |
+| rollout/return_history  | 3.85     |
+| total/duration          | 1.76e+03 |
+| total/episodes          | 69       |
+| total/epochs            | 52       |
+| total/steps             | 5.2e+03  |
+| total/steps_per_second  | 2.95     |
+| train/loss_actor        | -1.11    |
+| train/loss_critic       | 0.0777   |
+| train/param_noise_di... | 0.192    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 70
+Episode ended nº 71
+--------------------------------------
+| obs_rms_mean            | 0.0562   |
+| obs_rms_std             | 0.779    |
+| param_noise_stddev      | 0.0582   |
+| reference_Q_mean        | -2.56    |
+| reference_Q_std         | 3.88     |
+| reference_action_mean   | -0.00368 |
+| reference_action_std    | 0.98     |
+| reference_actor_Q_mean  | -2.49    |
+| reference_actor_Q_std   | 3.87     |
+| reference_perturbed_... | 0.989    |
+| rollout/Q_mean          | 1.06     |
+| rollout/actions_mean    | 0.916    |
+| rollout/actions_std     | 0.234    |
+| rollout/episode_steps   | 74.3     |
+| rollout/episodes        | 71       |
+| rollout/return          | 3.98     |
+| rollout/return_history  | 3.98     |
+| total/duration          | 1.78e+03 |
+| total/episodes          | 71       |
+| total/epochs            | 53       |
+| total/steps             | 5.3e+03  |
+| total/steps_per_second  | 2.97     |
+| train/loss_actor        | -1.19    |
+| train/loss_critic       | 0.0882   |
+| train/param_noise_di... | 0.199    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 72
+Episode ended nº 73
+--------------------------------------
+| obs_rms_mean            | 0.0583   |
+| obs_rms_std             | 0.782    |
+| param_noise_stddev      | 0.0606   |
+| reference_Q_mean        | -2.61    |
+| reference_Q_std         | 3.89     |
+| reference_action_mean   | -0.00696 |
+| reference_action_std    | 0.981    |
+| reference_actor_Q_mean  | -2.45    |
+| reference_actor_Q_std   | 3.88     |
+| reference_perturbed_... | 0.969    |
+| rollout/Q_mean          | 1.09     |
+| rollout/actions_mean    | 0.917    |
+| rollout/actions_std     | 0.232    |
+| rollout/episode_steps   | 73.9     |
+| rollout/episodes        | 73       |
+| rollout/return          | 4.1      |
+| rollout/return_history  | 4.1      |
+| total/duration          | 1.82e+03 |
+| total/episodes          | 73       |
+| total/epochs            | 54       |
+| total/steps             | 5.4e+03  |
+| total/steps_per_second  | 2.97     |
+| train/loss_actor        | -1.19    |
+| train/loss_critic       | 0.0848   |
+| train/param_noise_di... | 0.214    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 74
+--------------------------------------
+| obs_rms_mean            | 0.0588   |
+| obs_rms_std             | 0.784    |
+| param_noise_stddev      | 0.0606   |
+| reference_Q_mean        | -2.7     |
+| reference_Q_std         | 4.21     |
+| reference_action_mean   | 0.0102   |
+| reference_action_std    | 0.982    |
+| reference_actor_Q_mean  | -2.38    |
+| reference_actor_Q_std   | 4.11     |
+| reference_perturbed_... | 0.975    |
+| rollout/Q_mean          | 1.12     |
+| rollout/actions_mean    | 0.919    |
+| rollout/actions_std     | 0.23     |
+| rollout/episode_steps   | 73.7     |
+| rollout/episodes        | 74       |
+| rollout/return          | 4.15     |
+| rollout/return_history  | 4.15     |
+| total/duration          | 1.86e+03 |
+| total/episodes          | 74       |
+| total/epochs            | 55       |
+| total/steps             | 5.5e+03  |
+| total/steps_per_second  | 2.96     |
+| train/loss_actor        | -1.12    |
+| train/loss_critic       | 0.0852   |
+| train/param_noise_di... | 0.217    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 75
+Episode ended nº 76
+--------------------------------------
+| obs_rms_mean            | 0.0586   |
+| obs_rms_std             | 0.788    |
+| param_noise_stddev      | 0.0606   |
+| reference_Q_mean        | -2.58    |
+| reference_Q_std         | 4        |
+| reference_action_mean   | 0.00729  |
+| reference_action_std    | 0.989    |
+| reference_actor_Q_mean  | -2.43    |
+| reference_actor_Q_std   | 3.95     |
+| reference_perturbed_... | 0.983    |
+| rollout/Q_mean          | 1.16     |
+| rollout/actions_mean    | 0.92     |
+| rollout/actions_std     | 0.229    |
+| rollout/episode_steps   | 73.2     |
+| rollout/episodes        | 76       |
+| rollout/return          | 4.26     |
+| rollout/return_history  | 4.26     |
+| total/duration          | 1.89e+03 |
+| total/episodes          | 76       |
+| total/epochs            | 56       |
+| total/steps             | 5.6e+03  |
+| total/steps_per_second  | 2.97     |
+| train/loss_actor        | -1.29    |
+| train/loss_critic       | 0.0771   |
+| train/param_noise_di... | 0.206    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 77
+Episode ended nº 78
+--------------------------------------
+| obs_rms_mean            | 0.0584   |
+| obs_rms_std             | 0.787    |
+| param_noise_stddev      | 0.0571   |
+| reference_Q_mean        | -2.69    |
+| reference_Q_std         | 4.07     |
+| reference_action_mean   | 0.00366  |
+| reference_action_std    | 0.992    |
+| reference_actor_Q_mean  | -2.27    |
+| reference_actor_Q_std   | 3.98     |
+| reference_perturbed_... | 0.96     |
+| rollout/Q_mean          | 1.18     |
+| rollout/actions_mean    | 0.922    |
+| rollout/actions_std     | 0.227    |
+| rollout/episode_steps   | 73.1     |
+| rollout/episodes        | 78       |
+| rollout/return          | 4.36     |
+| rollout/return_history  | 4.36     |
+| total/duration          | 1.94e+03 |
+| total/episodes          | 78       |
+| total/epochs            | 57       |
+| total/steps             | 5.7e+03  |
+| total/steps_per_second  | 2.94     |
+| train/loss_actor        | -1.35    |
+| train/loss_critic       | 0.0748   |
+| train/param_noise_di... | 0.21     |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 79
+--------------------------------------
+| obs_rms_mean            | 0.0587   |
+| obs_rms_std             | 0.791    |
+| param_noise_stddev      | 0.056    |
+| reference_Q_mean        | -2.74    |
+| reference_Q_std         | 4.16     |
+| reference_action_mean   | -0.00149 |
+| reference_action_std    | 0.993    |
+| reference_actor_Q_mean  | -2.46    |
+| reference_actor_Q_std   | 4.09     |
+| reference_perturbed_... | 0.977    |
+| rollout/Q_mean          | 1.21     |
+| rollout/actions_mean    | 0.923    |
+| rollout/actions_std     | 0.225    |
+| rollout/episode_steps   | 72.9     |
+| rollout/episodes        | 79       |
+| rollout/return          | 4.41     |
+| rollout/return_history  | 4.41     |
+| total/duration          | 1.97e+03 |
+| total/episodes          | 79       |
+| total/epochs            | 58       |
+| total/steps             | 5.8e+03  |
+| total/steps_per_second  | 2.94     |
+| train/loss_actor        | -1.31    |
+| train/loss_critic       | 0.0675   |
+| train/param_noise_di... | 0.2      |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 80
+Episode ended nº 81
+--------------------------------------
+| obs_rms_mean            | 0.0598   |
+| obs_rms_std             | 0.795    |
+| param_noise_stddev      | 0.0538   |
+| reference_Q_mean        | -2.76    |
+| reference_Q_std         | 4.16     |
+| reference_action_mean   | 0.0028   |
+| reference_action_std    | 0.992    |
+| reference_actor_Q_mean  | -2.56    |
+| reference_actor_Q_std   | 4.1      |
+| reference_perturbed_... | 0.984    |
+| rollout/Q_mean          | 1.24     |
+| rollout/actions_mean    | 0.924    |
+| rollout/actions_std     | 0.223    |
+| rollout/episode_steps   | 72.5     |
+| rollout/episodes        | 81       |
+| rollout/return          | 4.51     |
+| rollout/return_history  | 4.51     |
+| total/duration          | 2e+03    |
+| total/episodes          | 81       |
+| total/epochs            | 59       |
+| total/steps             | 5.9e+03  |
+| total/steps_per_second  | 2.95     |
+| train/loss_actor        | -1.36    |
+| train/loss_critic       | 0.0617   |
+| train/param_noise_di... | 0.211    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 82
+Episode ended nº 83
+--------------------------------------
+| obs_rms_mean            | 0.0611   |
+| obs_rms_std             | 0.797    |
+| param_noise_stddev      | 0.056    |
+| reference_Q_mean        | -2.84    |
+| reference_Q_std         | 4.35     |
+| reference_action_mean   | 0.00522  |
+| reference_action_std    | 0.992    |
+| reference_actor_Q_mean  | -2.72    |
+| reference_actor_Q_std   | 4.32     |
+| reference_perturbed_... | 0.987    |
+| rollout/Q_mean          | 1.26     |
+| rollout/actions_mean    | 0.925    |
+| rollout/actions_std     | 0.222    |
+| rollout/episode_steps   | 72.2     |
+| rollout/episodes        | 83       |
+| rollout/return          | 4.59     |
+| rollout/return_history  | 4.59     |
+| total/duration          | 2.04e+03 |
+| total/episodes          | 83       |
+| total/epochs            | 60       |
+| total/steps             | 6e+03    |
+| total/steps_per_second  | 2.94     |
+| train/loss_actor        | -1.41    |
+| train/loss_critic       | 0.0851   |
+| train/param_noise_di... | 0.188    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 84
+--------------------------------------
+| obs_rms_mean            | 0.0619   |
+| obs_rms_std             | 0.799    |
+| param_noise_stddev      | 0.0571   |
+| reference_Q_mean        | -2.88    |
+| reference_Q_std         | 4.35     |
+| reference_action_mean   | 0.000376 |
+| reference_action_std    | 0.992    |
+| reference_actor_Q_mean  | -2.6     |
+| reference_actor_Q_std   | 4.27     |
+| reference_perturbed_... | 0.974    |
+| rollout/Q_mean          | 1.29     |
+| rollout/actions_mean    | 0.927    |
+| rollout/actions_std     | 0.22     |
+| rollout/episode_steps   | 72       |
+| rollout/episodes        | 84       |
+| rollout/return          | 4.64     |
+| rollout/return_history  | 4.64     |
+| total/duration          | 2.08e+03 |
+| total/episodes          | 84       |
+| total/epochs            | 61       |
+| total/steps             | 6.1e+03  |
+| total/steps_per_second  | 2.94     |
+| train/loss_actor        | -1.44    |
+| train/loss_critic       | 0.0592   |
+| train/param_noise_di... | 0.203    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 85
+Episode ended nº 86
+--------------------------------------
+| obs_rms_mean            | 0.0617   |
+| obs_rms_std             | 0.802    |
+| param_noise_stddev      | 0.0594   |
+| reference_Q_mean        | -2.96    |
+| reference_Q_std         | 4.43     |
+| reference_action_mean   | 0.00151  |
+| reference_action_std    | 0.993    |
+| reference_actor_Q_mean  | -2.78    |
+| reference_actor_Q_std   | 4.38     |
+| reference_perturbed_... | 0.99     |
+| rollout/Q_mean          | 1.32     |
+| rollout/actions_mean    | 0.928    |
+| rollout/actions_std     | 0.219    |
+| rollout/episode_steps   | 71.7     |
+| rollout/episodes        | 86       |
+| rollout/return          | 4.72     |
+| rollout/return_history  | 4.72     |
+| total/duration          | 2.1e+03  |
+| total/episodes          | 86       |
+| total/epochs            | 62       |
+| total/steps             | 6.2e+03  |
+| total/steps_per_second  | 2.95     |
+| train/loss_actor        | -1.4     |
+| train/loss_critic       | 0.0722   |
+| train/param_noise_di... | 0.199    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 87
+Episode ended nº 88
+--------------------------------------
+| obs_rms_mean            | 0.0626   |
+| obs_rms_std             | 0.805    |
+| param_noise_stddev      | 0.0606   |
+| reference_Q_mean        | -3.13    |
+| reference_Q_std         | 4.52     |
+| reference_action_mean   | 0.00387  |
+| reference_action_std    | 0.992    |
+| reference_actor_Q_mean  | -2.94    |
+| reference_actor_Q_std   | 4.49     |
+| reference_perturbed_... | 0.98     |
+| rollout/Q_mean          | 1.35     |
+| rollout/actions_mean    | 0.929    |
+| rollout/actions_std     | 0.217    |
+| rollout/episode_steps   | 71.4     |
+| rollout/episodes        | 88       |
+| rollout/return          | 4.8      |
+| rollout/return_history  | 4.8      |
+| total/duration          | 2.13e+03 |
+| total/episodes          | 88       |
+| total/epochs            | 63       |
+| total/steps             | 6.3e+03  |
+| total/steps_per_second  | 2.95     |
+| train/loss_actor        | -1.56    |
+| train/loss_critic       | 0.0703   |
+| train/param_noise_di... | 0.196    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 89
+--------------------------------------
+| obs_rms_mean            | 0.0632   |
+| obs_rms_std             | 0.804    |
+| param_noise_stddev      | 0.0643   |
+| reference_Q_mean        | -3.24    |
+| reference_Q_std         | 4.73     |
+| reference_action_mean   | 0.00995  |
+| reference_action_std    | 0.991    |
+| reference_actor_Q_mean  | -3.1     |
+| reference_actor_Q_std   | 4.7      |
+| reference_perturbed_... | 0.988    |
+| rollout/Q_mean          | 1.37     |
+| rollout/actions_mean    | 0.93     |
+| rollout/actions_std     | 0.216    |
+| rollout/episode_steps   | 71.2     |
+| rollout/episodes        | 89       |
+| rollout/return          | 4.84     |
+| rollout/return_history  | 4.84     |
+| total/duration          | 2.19e+03 |
+| total/episodes          | 89       |
+| total/epochs            | 64       |
+| total/steps             | 6.4e+03  |
+| total/steps_per_second  | 2.93     |
+| train/loss_actor        | -1.59    |
+| train/loss_critic       | 0.0744   |
+| train/param_noise_di... | 0.202    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 90
+Episode ended nº 91
+--------------------------------------
+| obs_rms_mean            | 0.063    |
+| obs_rms_std             | 0.805    |
+| param_noise_stddev      | 0.0669   |
+| reference_Q_mean        | -3.22    |
+| reference_Q_std         | 4.71     |
+| reference_action_mean   | 0.00717  |
+| reference_action_std    | 0.991    |
+| reference_actor_Q_mean  | -3.04    |
+| reference_actor_Q_std   | 4.69     |
+| reference_perturbed_... | 0.978    |
+| rollout/Q_mean          | 1.4      |
+| rollout/actions_mean    | 0.931    |
+| rollout/actions_std     | 0.214    |
+| rollout/episode_steps   | 71       |
+| rollout/episodes        | 91       |
+| rollout/return          | 4.91     |
+| rollout/return_history  | 4.91     |
+| total/duration          | 2.22e+03 |
+| total/episodes          | 91       |
+| total/epochs            | 65       |
+| total/steps             | 6.5e+03  |
+| total/steps_per_second  | 2.92     |
+| train/loss_actor        | -1.68    |
+| train/loss_critic       | 0.0651   |
+| train/param_noise_di... | 0.215    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 92
+Episode ended nº 93
+--------------------------------------
+| obs_rms_mean            | 0.0636   |
+| obs_rms_std             | 0.807    |
+| param_noise_stddev      | 0.0683   |
+| reference_Q_mean        | -3.33    |
+| reference_Q_std         | 4.72     |
+| reference_action_mean   | 0.00489  |
+| reference_action_std    | 0.992    |
+| reference_actor_Q_mean  | -3.21    |
+| reference_actor_Q_std   | 4.68     |
+| reference_perturbed_... | 0.987    |
+| rollout/Q_mean          | 1.42     |
+| rollout/actions_mean    | 0.932    |
+| rollout/actions_std     | 0.213    |
+| rollout/episode_steps   | 70.7     |
+| rollout/episodes        | 93       |
+| rollout/return          | 4.98     |
+| rollout/return_history  | 4.98     |
+| total/duration          | 2.26e+03 |
+| total/episodes          | 93       |
+| total/epochs            | 66       |
+| total/steps             | 6.6e+03  |
+| total/steps_per_second  | 2.93     |
+| train/loss_actor        | -1.58    |
+| train/loss_critic       | 0.0622   |
+| train/param_noise_di... | 0.222    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 94
+Episode ended nº 95
+--------------------------------------
+| obs_rms_mean            | 0.065    |
+| obs_rms_std             | 0.808    |
+| param_noise_stddev      | 0.0669   |
+| reference_Q_mean        | -3.26    |
+| reference_Q_std         | 4.8      |
+| reference_action_mean   | 0.00614  |
+| reference_action_std    | 0.992    |
+| reference_actor_Q_mean  | -3.06    |
+| reference_actor_Q_std   | 4.79     |
+| reference_perturbed_... | 0.995    |
+| rollout/Q_mean          | 1.44     |
+| rollout/actions_mean    | 0.933    |
+| rollout/actions_std     | 0.211    |
+| rollout/episode_steps   | 70.5     |
+| rollout/episodes        | 95       |
+| rollout/return          | 5.05     |
+| rollout/return_history  | 5.05     |
+| total/duration          | 2.29e+03 |
+| total/episodes          | 95       |
+| total/epochs            | 67       |
+| total/steps             | 6.7e+03  |
+| total/steps_per_second  | 2.92     |
+| train/loss_actor        | -1.81    |
+| train/loss_critic       | 0.0701   |
+| train/param_noise_di... | 0.227    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 96
+--------------------------------------
+| obs_rms_mean            | 0.065    |
+| obs_rms_std             | 0.808    |
+| param_noise_stddev      | 0.0683   |
+| reference_Q_mean        | -3.44    |
+| reference_Q_std         | 4.9      |
+| reference_action_mean   | 0.00132  |
+| reference_action_std    | 0.992    |
+| reference_actor_Q_mean  | -3.24    |
+| reference_actor_Q_std   | 4.88     |
+| reference_perturbed_... | 0.986    |
+| rollout/Q_mean          | 1.47     |
+| rollout/actions_mean    | 0.934    |
+| rollout/actions_std     | 0.21     |
+| rollout/episode_steps   | 70.3     |
+| rollout/episodes        | 96       |
+| rollout/return          | 5.08     |
+| rollout/return_history  | 5.08     |
+| total/duration          | 2.33e+03 |
+| total/episodes          | 96       |
+| total/epochs            | 68       |
+| total/steps             | 6.8e+03  |
+| total/steps_per_second  | 2.92     |
+| train/loss_actor        | -1.84    |
+| train/loss_critic       | 0.063    |
+| train/param_noise_di... | 0.21     |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 97
+Episode ended nº 98
+--------------------------------------
+| obs_rms_mean            | 0.0648   |
+| obs_rms_std             | 0.811    |
+| param_noise_stddev      | 0.0697   |
+| reference_Q_mean        | -3.34    |
+| reference_Q_std         | 4.92     |
+| reference_action_mean   | 0.0085   |
+| reference_action_std    | 0.99     |
+| reference_actor_Q_mean  | -3.35    |
+| reference_actor_Q_std   | 4.95     |
+| reference_perturbed_... | 0.986    |
+| rollout/Q_mean          | 1.5      |
+| rollout/actions_mean    | 0.935    |
+| rollout/actions_std     | 0.208    |
+| rollout/episode_steps   | 70.1     |
+| rollout/episodes        | 98       |
+| rollout/return          | 5.15     |
+| rollout/return_history  | 5.15     |
+| total/duration          | 2.36e+03 |
+| total/episodes          | 98       |
+| total/epochs            | 69       |
+| total/steps             | 6.9e+03  |
+| total/steps_per_second  | 2.92     |
+| train/loss_actor        | -1.95    |
+| train/loss_critic       | 0.0667   |
+| train/param_noise_di... | 0.207    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 99
+Episode ended nº 100
+--------------------------------------
+| obs_rms_mean            | 0.0663   |
+| obs_rms_std             | 0.813    |
+| param_noise_stddev      | 0.0754   |
+| reference_Q_mean        | -3.54    |
+| reference_Q_std         | 5.05     |
+| reference_action_mean   | 0.0139   |
+| reference_action_std    | 0.985    |
+| reference_actor_Q_mean  | -3.27    |
+| reference_actor_Q_std   | 5        |
+| reference_perturbed_... | 0.976    |
+| rollout/Q_mean          | 1.52     |
+| rollout/actions_mean    | 0.936    |
+| rollout/actions_std     | 0.207    |
+| rollout/episode_steps   | 69.9     |
+| rollout/episodes        | 100      |
+| rollout/return          | 5.21     |
+| rollout/return_history  | 5.21     |
+| total/duration          | 2.39e+03 |
+| total/episodes          | 100      |
+| total/epochs            | 70       |
+| total/steps             | 7e+03    |
+| total/steps_per_second  | 2.92     |
+| train/loss_actor        | -1.78    |
+| train/loss_critic       | 0.0705   |
+| train/param_noise_di... | 0.2      |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 101
+--------------------------------------
+| obs_rms_mean            | 0.0672   |
+| obs_rms_std             | 0.813    |
+| param_noise_stddev      | 0.0769   |
+| reference_Q_mean        | -3.65    |
+| reference_Q_std         | 5.21     |
+| reference_action_mean   | 0.0113   |
+| reference_action_std    | 0.987    |
+| reference_actor_Q_mean  | -3.38    |
+| reference_actor_Q_std   | 5.15     |
+| reference_perturbed_... | 0.973    |
+| rollout/Q_mean          | 1.55     |
+| rollout/actions_mean    | 0.937    |
+| rollout/actions_std     | 0.206    |
+| rollout/episode_steps   | 69.8     |
+| rollout/episodes        | 101      |
+| rollout/return          | 5.24     |
+| rollout/return_history  | 5.72     |
+| total/duration          | 2.43e+03 |
+| total/episodes          | 101      |
+| total/epochs            | 71       |
+| total/steps             | 7.1e+03  |
+| total/steps_per_second  | 2.92     |
+| train/loss_actor        | -1.89    |
+| train/loss_critic       | 0.0656   |
+| train/param_noise_di... | 0.217    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 102
+Episode ended nº 103
+--------------------------------------
+| obs_rms_mean            | 0.0669   |
+| obs_rms_std             | 0.815    |
+| param_noise_stddev      | 0.0711   |
+| reference_Q_mean        | -3.64    |
+| reference_Q_std         | 5.25     |
+| reference_action_mean   | 0.00599  |
+| reference_action_std    | 0.989    |
+| reference_actor_Q_mean  | -3.48    |
+| reference_actor_Q_std   | 5.22     |
+| reference_perturbed_... | 0.965    |
+| rollout/Q_mean          | 1.57     |
+| rollout/actions_mean    | 0.938    |
+| rollout/actions_std     | 0.204    |
+| rollout/episode_steps   | 69.5     |
+| rollout/episodes        | 103      |
+| rollout/return          | 5.3      |
+| rollout/return_history  | 5.75     |
+| total/duration          | 2.46e+03 |
+| total/episodes          | 103      |
+| total/epochs            | 72       |
+| total/steps             | 7.2e+03  |
+| total/steps_per_second  | 2.92     |
+| train/loss_actor        | -2.01    |
+| train/loss_critic       | 0.0709   |
+| train/param_noise_di... | 0.216    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 104
+Episode ended nº 105
+--------------------------------------
+| obs_rms_mean            | 0.0676   |
+| obs_rms_std             | 0.817    |
+| param_noise_stddev      | 0.0739   |
+| reference_Q_mean        | -3.97    |
+| reference_Q_std         | 5.35     |
+| reference_action_mean   | -0.00102 |
+| reference_action_std    | 0.988    |
+| reference_actor_Q_mean  | -3.78    |
+| reference_actor_Q_std   | 5.31     |
+| reference_perturbed_... | 0.992    |
+| rollout/Q_mean          | 1.6      |
+| rollout/actions_mean    | 0.939    |
+| rollout/actions_std     | 0.203    |
+| rollout/episode_steps   | 69.3     |
+| rollout/episodes        | 105      |
+| rollout/return          | 5.35     |
+| rollout/return_history  | 5.8      |
+| total/duration          | 2.49e+03 |
+| total/episodes          | 105      |
+| total/epochs            | 73       |
+| total/steps             | 7.3e+03  |
+| total/steps_per_second  | 2.93     |
+| train/loss_actor        | -1.93    |
+| train/loss_critic       | 0.0675   |
+| train/param_noise_di... | 0.201    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 106
+Episode ended nº 107
+--------------------------------------
+| obs_rms_mean            | 0.0686   |
+| obs_rms_std             | 0.818    |
+| param_noise_stddev      | 0.0754   |
+| reference_Q_mean        | -4.02    |
+| reference_Q_std         | 5.39     |
+| reference_action_mean   | 0.000372 |
+| reference_action_std    | 0.987    |
+| reference_actor_Q_mean  | -3.87    |
+| reference_actor_Q_std   | 5.36     |
+| reference_perturbed_... | 0.986    |
+| rollout/Q_mean          | 1.62     |
+| rollout/actions_mean    | 0.94     |
+| rollout/actions_std     | 0.202    |
+| rollout/episode_steps   | 69.1     |
+| rollout/episodes        | 107      |
+| rollout/return          | 5.4      |
+| rollout/return_history  | 5.85     |
+| total/duration          | 2.53e+03 |
+| total/episodes          | 107      |
+| total/epochs            | 74       |
+| total/steps             | 7.4e+03  |
+| total/steps_per_second  | 2.92     |
+| train/loss_actor        | -1.9     |
+| train/loss_critic       | 0.0676   |
+| train/param_noise_di... | 0.216    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 108
+--------------------------------------
+| obs_rms_mean            | 0.0682   |
+| obs_rms_std             | 0.818    |
+| param_noise_stddev      | 0.0739   |
+| reference_Q_mean        | -3.98    |
+| reference_Q_std         | 5.46     |
+| reference_action_mean   | 0.00151  |
+| reference_action_std    | 0.988    |
+| reference_actor_Q_mean  | -3.81    |
+| reference_actor_Q_std   | 5.44     |
+| reference_perturbed_... | 0.976    |
+| rollout/Q_mean          | 1.64     |
+| rollout/actions_mean    | 0.94     |
+| rollout/actions_std     | 0.201    |
+| rollout/episode_steps   | 69       |
+| rollout/episodes        | 108      |
+| rollout/return          | 5.43     |
+| rollout/return_history  | 5.87     |
+| total/duration          | 2.57e+03 |
+| total/episodes          | 108      |
+| total/epochs            | 75       |
+| total/steps             | 7.5e+03  |
+| total/steps_per_second  | 2.92     |
+| train/loss_actor        | -1.92    |
+| train/loss_critic       | 0.0742   |
+| train/param_noise_di... | 0.224    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 109
+Episode ended nº 110
+--------------------------------------
+| obs_rms_mean            | 0.0674   |
+| obs_rms_std             | 0.82     |
+| param_noise_stddev      | 0.0785   |
+| reference_Q_mean        | -3.88    |
+| reference_Q_std         | 5.52     |
+| reference_action_mean   | -0.00199 |
+| reference_action_std    | 0.987    |
+| reference_actor_Q_mean  | -3.74    |
+| reference_actor_Q_std   | 5.49     |
+| reference_perturbed_... | 0.987    |
+| rollout/Q_mean          | 1.67     |
+| rollout/actions_mean    | 0.941    |
+| rollout/actions_std     | 0.199    |
+| rollout/episode_steps   | 68.9     |
+| rollout/episodes        | 110      |
+| rollout/return          | 5.48     |
+| rollout/return_history  | 6.14     |
+| total/duration          | 2.61e+03 |
+| total/episodes          | 110      |
+| total/epochs            | 76       |
+| total/steps             | 7.6e+03  |
+| total/steps_per_second  | 2.91     |
+| train/loss_actor        | -2.15    |
+| train/loss_critic       | 0.0689   |
+| train/param_noise_di... | 0.2      |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 111
+Episode ended nº 112
+--------------------------------------
+| obs_rms_mean            | 0.0681   |
+| obs_rms_std             | 0.82     |
+| param_noise_stddev      | 0.0739   |
+| reference_Q_mean        | -4.19    |
+| reference_Q_std         | 5.68     |
+| reference_action_mean   | -0.0139  |
+| reference_action_std    | 0.986    |
+| reference_actor_Q_mean  | -4       |
+| reference_actor_Q_std   | 5.63     |
+| reference_perturbed_... | 0.985    |
+| rollout/Q_mean          | 1.69     |
+| rollout/actions_mean    | 0.942    |
+| rollout/actions_std     | 0.198    |
+| rollout/episode_steps   | 68.7     |
+| rollout/episodes        | 112      |
+| rollout/return          | 5.53     |
+| rollout/return_history  | 6.35     |
+| total/duration          | 2.66e+03 |
+| total/episodes          | 112      |
+| total/epochs            | 77       |
+| total/steps             | 7.7e+03  |
+| total/steps_per_second  | 2.9      |
+| train/loss_actor        | -2.14    |
+| train/loss_critic       | 0.0726   |
+| train/param_noise_di... | 0.221    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 113
+--------------------------------------
+| obs_rms_mean            | 0.0682   |
+| obs_rms_std             | 0.821    |
+| param_noise_stddev      | 0.0785   |
+| reference_Q_mean        | -4.09    |
+| reference_Q_std         | 5.68     |
+| reference_action_mean   | -0.0228  |
+| reference_action_std    | 0.988    |
+| reference_actor_Q_mean  | -3.82    |
+| reference_actor_Q_std   | 5.66     |
+| reference_perturbed_... | 0.976    |
+| rollout/Q_mean          | 1.71     |
+| rollout/actions_mean    | 0.943    |
+| rollout/actions_std     | 0.197    |
+| rollout/episode_steps   | 68.6     |
+| rollout/episodes        | 113      |
+| rollout/return          | 5.56     |
+| rollout/return_history  | 6.55     |
+| total/duration          | 2.7e+03  |
+| total/episodes          | 113      |
+| total/epochs            | 78       |
+| total/steps             | 7.8e+03  |
+| total/steps_per_second  | 2.89     |
+| train/loss_actor        | -2.06    |
+| train/loss_critic       | 0.0722   |
+| train/param_noise_di... | 0.208    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 114
+Episode ended nº 115
+--------------------------------------
+| obs_rms_mean            | 0.0678   |
+| obs_rms_std             | 0.823    |
+| param_noise_stddev      | 0.0754   |
+| reference_Q_mean        | -4.34    |
+| reference_Q_std         | 5.88     |
+| reference_action_mean   | -0.0242  |
+| reference_action_std    | 0.989    |
+| reference_actor_Q_mean  | -3.98    |
+| reference_actor_Q_std   | 5.78     |
+| reference_perturbed_... | 0.988    |
+| rollout/Q_mean          | 1.74     |
+| rollout/actions_mean    | 0.943    |
+| rollout/actions_std     | 0.196    |
+| rollout/episode_steps   | 68.4     |
+| rollout/episodes        | 115      |
+| rollout/return          | 5.6      |
+| rollout/return_history  | 6.57     |
+| total/duration          | 2.72e+03 |
+| total/episodes          | 115      |
+| total/epochs            | 79       |
+| total/steps             | 7.9e+03  |
+| total/steps_per_second  | 2.9      |
+| train/loss_actor        | -2.22    |
+| train/loss_critic       | 0.0725   |
+| train/param_noise_di... | 0.246    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 116
+Episode ended nº 117
+--------------------------------------
+| obs_rms_mean            | 0.0687   |
+| obs_rms_std             | 0.824    |
+| param_noise_stddev      | 0.0769   |
+| reference_Q_mean        | -4.27    |
+| reference_Q_std         | 5.79     |
+| reference_action_mean   | -0.0129  |
+| reference_action_std    | 0.991    |
+| reference_actor_Q_mean  | -4.09    |
+| reference_actor_Q_std   | 5.77     |
+| reference_perturbed_... | 0.985    |
+| rollout/Q_mean          | 1.76     |
+| rollout/actions_mean    | 0.944    |
+| rollout/actions_std     | 0.195    |
+| rollout/episode_steps   | 68.2     |
+| rollout/episodes        | 117      |
+| rollout/return          | 5.65     |
+| rollout/return_history  | 6.72     |
+| total/duration          | 2.76e+03 |
+| total/episodes          | 117      |
+| total/epochs            | 80       |
+| total/steps             | 8e+03    |
+| total/steps_per_second  | 2.9      |
+| train/loss_actor        | -2.22    |
+| train/loss_critic       | 0.0732   |
+| train/param_noise_di... | 0.201    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 118
+--------------------------------------
+| obs_rms_mean            | 0.0694   |
+| obs_rms_std             | 0.823    |
+| param_noise_stddev      | 0.0739   |
+| reference_Q_mean        | -4.4     |
+| reference_Q_std         | 5.9      |
+| reference_action_mean   | -0.016   |
+| reference_action_std    | 0.99     |
+| reference_actor_Q_mean  | -4.12    |
+| reference_actor_Q_std   | 5.87     |
+| reference_perturbed_... | 0.977    |
+| rollout/Q_mean          | 1.78     |
+| rollout/actions_mean    | 0.945    |
+| rollout/actions_std     | 0.194    |
+| rollout/episode_steps   | 68.2     |
+| rollout/episodes        | 118      |
+| rollout/return          | 5.67     |
+| rollout/return_history  | 6.99     |
+| total/duration          | 2.8e+03  |
+| total/episodes          | 118      |
+| total/epochs            | 81       |
+| total/steps             | 8.1e+03  |
+| total/steps_per_second  | 2.89     |
+| train/loss_actor        | -2.23    |
+| train/loss_critic       | 0.0721   |
+| train/param_noise_di... | 0.234    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 119
+Episode ended nº 120
+--------------------------------------
+| obs_rms_mean            | 0.0693   |
+| obs_rms_std             | 0.825    |
+| param_noise_stddev      | 0.0754   |
+| reference_Q_mean        | -4.6     |
+| reference_Q_std         | 5.96     |
+| reference_action_mean   | -0.0224  |
+| reference_action_std    | 0.99     |
+| reference_actor_Q_mean  | -4.43    |
+| reference_actor_Q_std   | 5.95     |
+| reference_perturbed_... | 0.993    |
+| rollout/Q_mean          | 1.8      |
+| rollout/actions_mean    | 0.945    |
+| rollout/actions_std     | 0.193    |
+| rollout/episode_steps   | 68       |
+| rollout/episodes        | 120      |
+| rollout/return          | 5.71     |
+| rollout/return_history  | 7.01     |
+| total/duration          | 2.84e+03 |
+| total/episodes          | 120      |
+| total/epochs            | 82       |
+| total/steps             | 8.2e+03  |
+| total/steps_per_second  | 2.89     |
+| train/loss_actor        | -2.43    |
+| train/loss_critic       | 0.0684   |
+| train/param_noise_di... | 0.23     |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 121
+Episode ended nº 122
+--------------------------------------
+| obs_rms_mean            | 0.0696   |
+| obs_rms_std             | 0.826    |
+| param_noise_stddev      | 0.0725   |
+| reference_Q_mean        | -4.58    |
+| reference_Q_std         | 6.1      |
+| reference_action_mean   | -0.0275  |
+| reference_action_std    | 0.99     |
+| reference_actor_Q_mean  | -4.34    |
+| reference_actor_Q_std   | 6.06     |
+| reference_perturbed_... | 0.986    |
+| rollout/Q_mean          | 1.82     |
+| rollout/actions_mean    | 0.946    |
+| rollout/actions_std     | 0.192    |
+| rollout/episode_steps   | 67.8     |
+| rollout/episodes        | 122      |
+| rollout/return          | 5.75     |
+| rollout/return_history  | 7.03     |
+| total/duration          | 2.86e+03 |
+| total/episodes          | 122      |
+| total/epochs            | 83       |
+| total/steps             | 8.3e+03  |
+| total/steps_per_second  | 2.9      |
+| train/loss_actor        | -2.3     |
+| train/loss_critic       | 0.0734   |
+| train/param_noise_di... | 0.222    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 123
+Episode ended nº 124
+--------------------------------------
+| obs_rms_mean            | 0.0706   |
+| obs_rms_std             | 0.828    |
+| param_noise_stddev      | 0.0769   |
+| reference_Q_mean        | -4.57    |
+| reference_Q_std         | 6.16     |
+| reference_action_mean   | -0.0306  |
+| reference_action_std    | 0.989    |
+| reference_actor_Q_mean  | -4.45    |
+| reference_actor_Q_std   | 6.14     |
+| reference_perturbed_... | 0.982    |
+| rollout/Q_mean          | 1.84     |
+| rollout/actions_mean    | 0.947    |
+| rollout/actions_std     | 0.19     |
+| rollout/episode_steps   | 67.7     |
+| rollout/episodes        | 124      |
+| rollout/return          | 5.79     |
+| rollout/return_history  | 7.44     |
+| total/duration          | 2.9e+03  |
+| total/episodes          | 124      |
+| total/epochs            | 84       |
+| total/steps             | 8.4e+03  |
+| total/steps_per_second  | 2.9      |
+| train/loss_actor        | -2.42    |
+| train/loss_critic       | 0.0774   |
+| train/param_noise_di... | 0.21     |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 125
+--------------------------------------
+| obs_rms_mean            | 0.0709   |
+| obs_rms_std             | 0.828    |
+| param_noise_stddev      | 0.0769   |
+| reference_Q_mean        | -4.7     |
+| reference_Q_std         | 6.18     |
+| reference_action_mean   | -0.0259  |
+| reference_action_std    | 0.99     |
+| reference_actor_Q_mean  | -4.41    |
+| reference_actor_Q_std   | 6.13     |
+| reference_perturbed_... | 0.978    |
+| rollout/Q_mean          | 1.87     |
+| rollout/actions_mean    | 0.947    |
+| rollout/actions_std     | 0.189    |
+| rollout/episode_steps   | 67.6     |
+| rollout/episodes        | 125      |
+| rollout/return          | 5.81     |
+| rollout/return_history  | 7.62     |
+| total/duration          | 2.93e+03 |
+| total/episodes          | 125      |
+| total/epochs            | 85       |
+| total/steps             | 8.5e+03  |
+| total/steps_per_second  | 2.9      |
+| train/loss_actor        | -2.42    |
+| train/loss_critic       | 0.0765   |
+| train/param_noise_di... | 0.219    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 126
+Episode ended nº 127
+--------------------------------------
+| obs_rms_mean            | 0.0711   |
+| obs_rms_std             | 0.83     |
+| param_noise_stddev      | 0.0711   |
+| reference_Q_mean        | -4.58    |
+| reference_Q_std         | 6.25     |
+| reference_action_mean   | -0.0242  |
+| reference_action_std    | 0.99     |
+| reference_actor_Q_mean  | -4.21    |
+| reference_actor_Q_std   | 6.19     |
+| reference_perturbed_... | 0.977    |
+| rollout/Q_mean          | 1.89     |
+| rollout/actions_mean    | 0.948    |
+| rollout/actions_std     | 0.188    |
+| rollout/episode_steps   | 67.4     |
+| rollout/episodes        | 127      |
+| rollout/return          | 5.85     |
+| rollout/return_history  | 7.67     |
+| total/duration          | 2.96e+03 |
+| total/episodes          | 127      |
+| total/epochs            | 86       |
+| total/steps             | 8.6e+03  |
+| total/steps_per_second  | 2.9      |
+| train/loss_actor        | -2.49    |
+| train/loss_critic       | 0.0793   |
+| train/param_noise_di... | 0.234    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 128
+Episode ended nº 129
+--------------------------------------
+| obs_rms_mean            | 0.0716   |
+| obs_rms_std             | 0.832    |
+| param_noise_stddev      | 0.0683   |
+| reference_Q_mean        | -4.76    |
+| reference_Q_std         | 6.26     |
+| reference_action_mean   | -0.0381  |
+| reference_action_std    | 0.989    |
+| reference_actor_Q_mean  | -4.36    |
+| reference_actor_Q_std   | 6.2      |
+| reference_perturbed_... | 0.978    |
+| rollout/Q_mean          | 1.91     |
+| rollout/actions_mean    | 0.949    |
+| rollout/actions_std     | 0.187    |
+| rollout/episode_steps   | 67.3     |
+| rollout/episodes        | 129      |
+| rollout/return          | 5.89     |
+| rollout/return_history  | 7.71     |
+| total/duration          | 2.99e+03 |
+| total/episodes          | 129      |
+| total/epochs            | 87       |
+| total/steps             | 8.7e+03  |
+| total/steps_per_second  | 2.91     |
+| train/loss_actor        | -2.48    |
+| train/loss_critic       | 0.0746   |
+| train/param_noise_di... | 0.212    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 130
+Episode ended nº 131
+--------------------------------------
+| obs_rms_mean            | 0.0727   |
+| obs_rms_std             | 0.832    |
+| param_noise_stddev      | 0.0711   |
+| reference_Q_mean        | -4.67    |
+| reference_Q_std         | 6.26     |
+| reference_action_mean   | -0.03    |
+| reference_action_std    | 0.989    |
+| reference_actor_Q_mean  | -4.3     |
+| reference_actor_Q_std   | 6.19     |
+| reference_perturbed_... | 0.976    |
+| rollout/Q_mean          | 1.93     |
+| rollout/actions_mean    | 0.949    |
+| rollout/actions_std     | 0.186    |
+| rollout/episode_steps   | 67.2     |
+| rollout/episodes        | 131      |
+| rollout/return          | 5.93     |
+| rollout/return_history  | 7.76     |
+| total/duration          | 3.03e+03 |
+| total/episodes          | 131      |
+| total/epochs            | 88       |
+| total/steps             | 8.8e+03  |
+| total/steps_per_second  | 2.91     |
+| train/loss_actor        | -2.45    |
+| train/loss_critic       | 0.0791   |
+| train/param_noise_di... | 0.192    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 132
+--------------------------------------
+| obs_rms_mean            | 0.0728   |
+| obs_rms_std             | 0.833    |
+| param_noise_stddev      | 0.0711   |
+| reference_Q_mean        | -4.64    |
+| reference_Q_std         | 6.47     |
+| reference_action_mean   | -0.0393  |
+| reference_action_std    | 0.991    |
+| reference_actor_Q_mean  | -4.41    |
+| reference_actor_Q_std   | 6.45     |
+| reference_perturbed_... | 0.989    |
+| rollout/Q_mean          | 1.95     |
+| rollout/actions_mean    | 0.95     |
+| rollout/actions_std     | 0.185    |
+| rollout/episode_steps   | 67.1     |
+| rollout/episodes        | 132      |
+| rollout/return          | 5.94     |
+| rollout/return_history  | 7.94     |
+| total/duration          | 3.06e+03 |
+| total/episodes          | 132      |
+| total/epochs            | 89       |
+| total/steps             | 8.9e+03  |
+| total/steps_per_second  | 2.9      |
+| train/loss_actor        | -2.63    |
+| train/loss_critic       | 0.0776   |
+| train/param_noise_di... | 0.217    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 133
+Episode ended nº 134
+--------------------------------------
+| obs_rms_mean            | 0.0728   |
+| obs_rms_std             | 0.835    |
+| param_noise_stddev      | 0.0739   |
+| reference_Q_mean        | -4.7     |
+| reference_Q_std         | 6.5      |
+| reference_action_mean   | -0.0494  |
+| reference_action_std    | 0.988    |
+| reference_actor_Q_mean  | -4.49    |
+| reference_actor_Q_std   | 6.44     |
+| reference_perturbed_... | 0.993    |
+| rollout/Q_mean          | 1.97     |
+| rollout/actions_mean    | 0.95     |
+| rollout/actions_std     | 0.184    |
+| rollout/episode_steps   | 66.9     |
+| rollout/episodes        | 134      |
+| rollout/return          | 5.98     |
+| rollout/return_history  | 8.03     |
+| total/duration          | 3.09e+03 |
+| total/episodes          | 134      |
+| total/epochs            | 90       |
+| total/steps             | 9e+03    |
+| total/steps_per_second  | 2.91     |
+| train/loss_actor        | -2.59    |
+| train/loss_critic       | 0.0782   |
+| train/param_noise_di... | 0.198    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 135
+Episode ended nº 136
+--------------------------------------
+| obs_rms_mean            | 0.0735   |
+| obs_rms_std             | 0.836    |
+| param_noise_stddev      | 0.0725   |
+| reference_Q_mean        | -4.97    |
+| reference_Q_std         | 6.59     |
+| reference_action_mean   | -0.0304  |
+| reference_action_std    | 0.99     |
+| reference_actor_Q_mean  | -4.57    |
+| reference_actor_Q_std   | 6.52     |
+| reference_perturbed_... | 0.985    |
+| rollout/Q_mean          | 1.99     |
+| rollout/actions_mean    | 0.951    |
+| rollout/actions_std     | 0.184    |
+| rollout/episode_steps   | 66.8     |
+| rollout/episodes        | 136      |
+| rollout/return          | 6.01     |
+| rollout/return_history  | 8.05     |
+| total/duration          | 3.12e+03 |
+| total/episodes          | 136      |
+| total/epochs            | 91       |
+| total/steps             | 9.1e+03  |
+| total/steps_per_second  | 2.92     |
+| train/loss_actor        | -2.52    |
+| train/loss_critic       | 0.0797   |
+| train/param_noise_di... | 0.205    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 137
+--------------------------------------
+| obs_rms_mean            | 0.074    |
+| obs_rms_std             | 0.837    |
+| param_noise_stddev      | 0.0754   |
+| reference_Q_mean        | -4.74    |
+| reference_Q_std         | 6.66     |
+| reference_action_mean   | -0.0393  |
+| reference_action_std    | 0.989    |
+| reference_actor_Q_mean  | -4.41    |
+| reference_actor_Q_std   | 6.63     |
+| reference_perturbed_... | 0.995    |
+| rollout/Q_mean          | 2.01     |
+| rollout/actions_mean    | 0.951    |
+| rollout/actions_std     | 0.183    |
+| rollout/episode_steps   | 66.8     |
+| rollout/episodes        | 137      |
+| rollout/return          | 6.03     |
+| rollout/return_history  | 8.06     |
+| total/duration          | 3.16e+03 |
+| total/episodes          | 137      |
+| total/epochs            | 92       |
+| total/steps             | 9.2e+03  |
+| total/steps_per_second  | 2.92     |
+| train/loss_actor        | -2.75    |
+| train/loss_critic       | 0.0832   |
+| train/param_noise_di... | 0.219    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 138
+Episode ended nº 139
+--------------------------------------
+| obs_rms_mean            | 0.0737   |
+| obs_rms_std             | 0.838    |
+| param_noise_stddev      | 0.0801   |
+| reference_Q_mean        | -5.11    |
+| reference_Q_std         | 6.83     |
+| reference_action_mean   | -0.0453  |
+| reference_action_std    | 0.987    |
+| reference_actor_Q_mean  | -4.91    |
+| reference_actor_Q_std   | 6.77     |
+| reference_perturbed_... | 0.961    |
+| rollout/Q_mean          | 2.03     |
+| rollout/actions_mean    | 0.952    |
+| rollout/actions_std     | 0.182    |
+| rollout/episode_steps   | 66.6     |
+| rollout/episodes        | 139      |
+| rollout/return          | 6.06     |
+| rollout/return_history  | 8.07     |
+| total/duration          | 3.19e+03 |
+| total/episodes          | 139      |
+| total/epochs            | 93       |
+| total/steps             | 9.3e+03  |
+| total/steps_per_second  | 2.92     |
+| train/loss_actor        | -2.71    |
+| train/loss_critic       | 0.0787   |
+| train/param_noise_di... | 0.191    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 140
+Episode ended nº 141
+--------------------------------------
+| obs_rms_mean            | 0.0741   |
+| obs_rms_std             | 0.839    |
+| param_noise_stddev      | 0.0769   |
+| reference_Q_mean        | -4.91    |
+| reference_Q_std         | 6.81     |
+| reference_action_mean   | -0.0425  |
+| reference_action_std    | 0.991    |
+| reference_actor_Q_mean  | -4.71    |
+| reference_actor_Q_std   | 6.74     |
+| reference_perturbed_... | 0.969    |
+| rollout/Q_mean          | 2.05     |
+| rollout/actions_mean    | 0.952    |
+| rollout/actions_std     | 0.181    |
+| rollout/episode_steps   | 66.5     |
+| rollout/episodes        | 141      |
+| rollout/return          | 6.09     |
+| rollout/return_history  | 8.12     |
+| total/duration          | 3.22e+03 |
+| total/episodes          | 141      |
+| total/epochs            | 94       |
+| total/steps             | 9.4e+03  |
+| total/steps_per_second  | 2.91     |
+| train/loss_actor        | -2.66    |
+| train/loss_critic       | 0.0799   |
+| train/param_noise_di... | 0.228    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 142
+Episode ended nº 143
+--------------------------------------
+| obs_rms_mean            | 0.0743   |
+| obs_rms_std             | 0.839    |
+| param_noise_stddev      | 0.0785   |
+| reference_Q_mean        | -5.12    |
+| reference_Q_std         | 6.89     |
+| reference_action_mean   | -0.046   |
+| reference_action_std    | 0.99     |
+| reference_actor_Q_mean  | -4.86    |
+| reference_actor_Q_std   | 6.84     |
+| reference_perturbed_... | 0.971    |
+| rollout/Q_mean          | 2.07     |
+| rollout/actions_mean    | 0.953    |
+| rollout/actions_std     | 0.18     |
+| rollout/episode_steps   | 66.4     |
+| rollout/episodes        | 143      |
+| rollout/return          | 6.12     |
+| rollout/return_history  | 8.13     |
+| total/duration          | 3.27e+03 |
+| total/episodes          | 143      |
+| total/epochs            | 95       |
+| total/steps             | 9.5e+03  |
+| total/steps_per_second  | 2.91     |
+| train/loss_actor        | -2.75    |
+| train/loss_critic       | 0.0807   |
+| train/param_noise_di... | 0.23     |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 144
+--------------------------------------
+| obs_rms_mean            | 0.074    |
+| obs_rms_std             | 0.84     |
+| param_noise_stddev      | 0.0785   |
+| reference_Q_mean        | -5.04    |
+| reference_Q_std         | 6.96     |
+| reference_action_mean   | -0.0437  |
+| reference_action_std    | 0.99     |
+| reference_actor_Q_mean  | -4.75    |
+| reference_actor_Q_std   | 6.92     |
+| reference_perturbed_... | 0.984    |
+| rollout/Q_mean          | 2.09     |
+| rollout/actions_mean    | 0.953    |
+| rollout/actions_std     | 0.179    |
+| rollout/episode_steps   | 66.4     |
+| rollout/episodes        | 144      |
+| rollout/return          | 6.13     |
+| rollout/return_history  | 8.14     |
+| total/duration          | 3.3e+03  |
+| total/episodes          | 144      |
+| total/epochs            | 96       |
+| total/steps             | 9.6e+03  |
+| total/steps_per_second  | 2.91     |
+| train/loss_actor        | -2.75    |
+| train/loss_critic       | 0.0787   |
+| train/param_noise_di... | 0.215    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 145
+Episode ended nº 146
+--------------------------------------
+| obs_rms_mean            | 0.0741   |
+| obs_rms_std             | 0.841    |
+| param_noise_stddev      | 0.0801   |
+| reference_Q_mean        | -5.48    |
+| reference_Q_std         | 6.92     |
+| reference_action_mean   | -0.0392  |
+| reference_action_std    | 0.991    |
+| reference_actor_Q_mean  | -5.31    |
+| reference_actor_Q_std   | 6.88     |
+| reference_perturbed_... | 0.993    |
+| rollout/Q_mean          | 2.11     |
+| rollout/actions_mean    | 0.954    |
+| rollout/actions_std     | 0.178    |
+| rollout/episode_steps   | 66.2     |
+| rollout/episodes        | 146      |
+| rollout/return          | 6.16     |
+| rollout/return_history  | 8.15     |
+| total/duration          | 3.33e+03 |
+| total/episodes          | 146      |
+| total/epochs            | 97       |
+| total/steps             | 9.7e+03  |
+| total/steps_per_second  | 2.91     |
+| train/loss_actor        | -2.81    |
+| train/loss_critic       | 0.0799   |
+| train/param_noise_di... | 0.217    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 147
+Episode ended nº 148
+--------------------------------------
+| obs_rms_mean            | 0.0743   |
+| obs_rms_std             | 0.842    |
+| param_noise_stddev      | 0.0769   |
+| reference_Q_mean        | -5.18    |
+| reference_Q_std         | 6.92     |
+| reference_action_mean   | -0.0373  |
+| reference_action_std    | 0.991    |
+| reference_actor_Q_mean  | -5.01    |
+| reference_actor_Q_std   | 6.88     |
+| reference_perturbed_... | 0.989    |
+| rollout/Q_mean          | 2.13     |
+| rollout/actions_mean    | 0.954    |
+| rollout/actions_std     | 0.177    |
+| rollout/episode_steps   | 66.1     |
+| rollout/episodes        | 148      |
+| rollout/return          | 6.19     |
+| rollout/return_history  | 8.16     |
+| total/duration          | 3.37e+03 |
+| total/episodes          | 148      |
+| total/epochs            | 98       |
+| total/steps             | 9.8e+03  |
+| total/steps_per_second  | 2.9      |
+| train/loss_actor        | -2.83    |
+| train/loss_critic       | 0.0814   |
+| train/param_noise_di... | 0.217    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 149
+--------------------------------------
+| obs_rms_mean            | 0.0746   |
+| obs_rms_std             | 0.842    |
+| param_noise_stddev      | 0.0769   |
+| reference_Q_mean        | -5.32    |
+| reference_Q_std         | 6.96     |
+| reference_action_mean   | -0.0213  |
+| reference_action_std    | 0.995    |
+| reference_actor_Q_mean  | -5       |
+| reference_actor_Q_std   | 6.92     |
+| reference_perturbed_... | 0.985    |
+| rollout/Q_mean          | 2.15     |
+| rollout/actions_mean    | 0.955    |
+| rollout/actions_std     | 0.176    |
+| rollout/episode_steps   | 66.1     |
+| rollout/episodes        | 149      |
+| rollout/return          | 6.2      |
+| rollout/return_history  | 8.16     |
+| total/duration          | 3.41e+03 |
+| total/episodes          | 149      |
+| total/epochs            | 99       |
+| total/steps             | 9.9e+03  |
+| total/steps_per_second  | 2.9      |
+| train/loss_actor        | -2.79    |
+| train/loss_critic       | 0.0834   |
+| train/param_noise_di... | 0.223    |
+--------------------------------------
+
+Starting a new epoch_cycle nº 0 =)
+Episode ended nº 150
+Episode ended nº 151
+--------------------------------------
+| obs_rms_mean            | 0.0744   |
+| obs_rms_std             | 0.843    |
+| param_noise_stddev      | 0.0725   |
+| reference_Q_mean        | -5.45    |
+| reference_Q_std         | 7.09     |
+| reference_action_mean   | -0.0169  |
+| reference_action_std    | 0.996    |
+| reference_actor_Q_mean  | -5.14    |
+| reference_actor_Q_std   | 7.07     |
+| reference_perturbed_... | 0.989    |
+| rollout/Q_mean          | 2.17     |
+| rollout/actions_mean    | 0.955    |
+| rollout/actions_std     | 0.176    |
+| rollout/episode_steps   | 66       |
+| rollout/episodes        | 151      |
+| rollout/return          | 6.23     |
+| rollout/return_history  | 8.17     |
+| total/duration          | 3.44e+03 |
+| total/episodes          | 151      |
+| total/epochs            | 100      |
+| total/steps             | 1e+04    |
+| total/steps_per_second  | 2.9      |
+| train/loss_actor        | -2.81    |
+| train/loss_critic       | 0.087    |
+| train/param_noise_di... | 0.233    |
+--------------------------------------
+
+Model saved in file: /home/dmarta/baselines/baselines/NIPS/NIPS_analyse/model
+total runtime: 3444.432785987854s
