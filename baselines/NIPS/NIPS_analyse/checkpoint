@@ -1,0 +1,2 @@
+model_checkpoint_path: "/home/dmarta/baselines/baselines/NIPS/NIPS_analyse/model"
+all_model_checkpoint_paths: "/home/dmarta/baselines/baselines/NIPS/NIPS_analyse/model"
