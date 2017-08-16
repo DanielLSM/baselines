@@ -192,12 +192,7 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
         # Save the variables to disk.
         
         if rank == 0 and logdir:
-            save_path = saver.save(sess, "/tmp/NIPS/model")
-            #logger.info('rank {}: seed={}, logdir={}'.format(save_path)
-            logger.info('Model saved in file: {}'.format(save_path))
-
-
-
+            save_path = saver.save(sess, "/home/danielpc/baselines/baselines/NIPS/NIPS_analyse/model")
 
 
 
@@ -228,7 +223,7 @@ def test(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, par
     #we want to restore the session here
     with U.single_threaded_session() as sess:
         # Prepare everything.
-        saver.restore(sess, '/tmp/NIPS/model')
+        saver.restore(sess, '/home/danielpc/Desktop/NIPS_analyse/model')
         agent.initialize(sess)
         sess.graph.finalize()
 

@@ -277,7 +277,7 @@ class session(object):
         if dir is None:
             dir = os.getenv('OPENAI_LOGDIR')
         if dir is None:
-            dir = osp.join(tempfile.gettempdir(), 
+            dir = osp.join('/home/danielpc/baselines/baselines/NIPS/NIPS_analyse', 
                 datetime.datetime.now().strftime("openai-%Y-%m-%d-%H-%M-%S-%f"))
         self.dir = dir
         if format_strs is None:
