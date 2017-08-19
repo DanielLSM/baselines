@@ -111,7 +111,10 @@ def run(env_id, seed, noise_type, num_cpu, layer_norm, logdir, gym_monitor, eval
 def parse_args():
     parser = argparse.ArgumentParser()
     
-    parser.add_argument('--env-id', type=str, default='HalfCheetah-v1')
+    # p = playground('LunarLanderContinuous-v2')
+    # p = playground('Pendulum-v0')
+    
+    parser.add_argument('--env-id', type=str, default='Pendulum-v0')
     boolean_flag(parser, 'render-eval', default=False)
     boolean_flag(parser, 'layer-norm', default=True)
     boolean_flag(parser, 'render', default=False)
@@ -143,6 +146,11 @@ def parse_args():
 
 if __name__ == '__main__':
     args = parse_args()
+
+    
+    dir = '/home/danielpc/Desktop/Gym_Train'
+    logger.configure(dir=dir)
+
 
     # Figure out what logdir to use.
     if args['logdir'] is None:
