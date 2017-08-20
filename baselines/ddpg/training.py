@@ -13,6 +13,12 @@ import tensorflow as tf
 from mpi4py import MPI
 
 
+from baselines.common.misc_util import (
+    set_global_seeds,
+    boolean_flag,
+    SimpleMonitor
+)
+
 def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, param_noise, actor, critic,
     normalize_returns, normalize_observations, critic_l2_reg, actor_lr, critic_lr, action_noise, logdir,
     popart, gamma, clip_norm, nb_train_steps, nb_rollout_steps, nb_eval_steps, batch_size, memory,
@@ -187,5 +193,56 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
                     with open(os.path.join(logdir, 'eval_env_state.pkl'), 'wb') as f:
                         pickle.dump(eval_env.get_state(), f)
             if rank == 0:
-                saver.save(sess, logdir.get_dir()+'model/gym_model', global_step=epoch)
+                saver.save(sess, logger.get_dir()+'/model/gym_model', global_step=epoch)
+
+
+def test(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, param_noise, actor, critic,
+    normalize_returns, normalize_observations, critic_l2_reg, actor_lr, critic_lr, action_noise, logdir,
+    popart, gamma, clip_norm, nb_train_steps, nb_rollout_steps, nb_eval_steps, batch_size, memory,
+    tau=0.01, eval_env=None, param_noise_adaption_interval=50):
+    rank = MPI.COMM_WORLD.Get_rank()
+
+    assert (np.abs(env.action_space.low) == env.action_space.high).all()  # we assume symmetric actions.
+    max_action = env.action_space.high
+    logger.info('scaling actions by {} before executing in env'.format(max_action))
+    agent = DDPG(actor, critic, memory, env.observation_space.shape, env.action_space.shape,
+        gamma=gamma, tau=tau, normalize_returns=normalize_returns, normalize_observations=normalize_observations,
+        batch_size=batch_size, action_noise=action_noise, param_noise=param_noise, critic_l2_reg=critic_l2_reg,
+        actor_lr=actor_lr, critic_lr=critic_lr, enable_popart=popart, clip_norm=clip_norm,
+        reward_scale=reward_scale)
+    logger.info('Using agent with the following configuration:')
+    logger.info(str(agent.__dict__.items()))
+
+    # Set up logging stuff only for a single worker.
+    if rank == 0:
+        saver = tf.train.Saver()
+    else:
+        saver = None
+    
+    step = 0
+    episode = 0
+
+    env = SimpleMonitor(env)   
+
+    with U.single_threaded_session() as sess:
+        # Prepare everything.
+        agent.initialize(sess)
+        sess.graph.finalize()
+
+        agent.reset()
+        obs = env.reset()
+        if eval_env is not None:
+            eval_obs = eval_env.reset()
+        done = False
+        while done:
+            action, q = agent.pi(obs, apply_noise=True, compute_Q=True)
+            new_obs, r, done, info = env.step(max_action * action)
+
+        for epoch in range(nb_epochs):
+            for cycle in range(nb_epoch_cycles):
+                # Perform rollouts.
+                for t_rollout in range(nb_rollout_steps):
+                    # Predict next action.
+                    action, q = agent.pi(obs, apply_noise=True, compute_Q=True)
+                    assert action.shape == env.action_space.shape
 

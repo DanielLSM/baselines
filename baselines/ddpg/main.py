@@ -25,7 +25,7 @@ import tensorflow as tf
 from mpi4py import MPI
 
 
-def run(env_id, seed, noise_type, num_cpu, layer_norm, logdir, gym_monitor, evaluation, bind_to_core, **kwargs):
+def run(env_id, seed, noise_type, num_cpu, layer_norm, logdir, gym_monitor, evaluation, bind_to_core,test , **kwargs):
     kwargs['logdir'] = logdir
     whoami = mpi_fork(num_cpu, bind_to_core=bind_to_core)
     if whoami == 'parent':
@@ -95,25 +95,46 @@ def run(env_id, seed, noise_type, num_cpu, layer_norm, logdir, gym_monitor, eval
     if eval_env is not None:
         eval_env.seed(seed)
 
-    # Disable logging for rank != 0 to avoid noise.
-    if rank == 0:
-        start_time = time.time()
-    training.train(env=env, eval_env=eval_env, param_noise=param_noise,
-        action_noise=action_noise, actor=actor, critic=critic, memory=memory, **kwargs)
-    env.close()
-    if eval_env is not None:
-        eval_env.close()
-    Logger.CURRENT.close()
-    if rank == 0:
-        logger.info('total runtime: {}s'.format(time.time() - start_time))
 
+
+    if test:
+            # Disable logging for rank != 0 to avoid noise.
+        if rank == 0:
+            start_time = time.time()
+            training.test(env=env, eval_env=eval_env, param_noise=param_noise,
+            action_noise=action_noise, actor=actor, critic=critic, memory=memory, **kwargs)
+        env.close()
+        if eval_env is not None:
+            eval_env.close()
+        Logger.CURRENT.close()
+        if rank == 0:
+            logger.info('total runtime: {}s'.format(time.time() - start_time))
+
+    else:
+        # Disable logging for rank != 0 to avoid noise.
+        if rank == 0:
+            start_time = time.time()
+            training.train(env=env, eval_env=eval_env, param_noise=param_noise,
+            action_noise=action_noise, actor=actor, critic=critic, memory=memory, **kwargs)
+        env.close()
+        if eval_env is not None:
+            eval_env.close()
+        Logger.CURRENT.close()
+        if rank == 0:
+            logger.info('total runtime: {}s'.format(time.time() - start_time))
+
+
+
+    
 
 def parse_args():
     parser = argparse.ArgumentParser()
     
     # p = playground('LunarLanderContinuous-v2')
     # p = playground('Pendulum-v0')
-    
+    # p = playground('MountainCar-v0')
+    # p = playground('BipedalWalker-v2')
+
     parser.add_argument('--env-id', type=str, default='Pendulum-v0')
     boolean_flag(parser, 'render-eval', default=False)
     boolean_flag(parser, 'layer-norm', default=True)
@@ -131,7 +152,7 @@ def parse_args():
     parser.add_argument('--reward-scale', type=float, default=1.)
     parser.add_argument('--clip-norm', type=float, default=None)
     parser.add_argument('--nb-epochs', type=int, default=500)  # with default settings, perform 1M steps total
-    parser.add_argument('--nb-epoch-cycles', type=int, default=20)
+    parser.add_argument('--nb-epoch-cycles', type=int, default=5)
     parser.add_argument('--nb-train-steps', type=int, default=50)  # per epoch cycle and MPI worker
     parser.add_argument('--nb-eval-steps', type=int, default=100)  # per epoch cycle and MPI worker
     parser.add_argument('--nb-rollout-steps', type=int, default=100)  # per epoch cycle and MPI worker
@@ -141,6 +162,8 @@ def parse_args():
     boolean_flag(parser, 'evaluation', default=True)
     boolean_flag(parser, 'bind-to-core', default=False)
 
+    boolean_flag(parser, 'test', default=False)
+
     return vars(parser.parse_args())
 
 
@@ -148,8 +171,8 @@ if __name__ == '__main__':
     args = parse_args()
 
     
-    dir = '/home/danielpc/Desktop/Gym_Train'
-    logger.configure(dir=dir)
+    #dir = '/home/danielpc/Desktop/Gym_Train'
+    #logger.configure(dir=dir)
 
 
     # Figure out what logdir to use.
