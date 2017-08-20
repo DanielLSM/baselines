@@ -57,7 +57,7 @@ def get_perturbed_actor_updates(actor, perturbed_actor, param_noise_stddev):
 class DDPG(object):
     def __init__(self, actor, critic, memory, observation_shape, action_shape, param_noise=None, action_noise=None,
         gamma=0.99, tau=0.001, normalize_returns=False, enable_popart=False, normalize_observations=True,
-        batch_size=128, observation_range=(-5., 5.), action_range=(-1., 1.), return_range=(-np.inf, np.inf),
+        batch_size=128, observation_range=(-10., 10.), action_range=(-2., 2.), return_range=(-np.inf, np.inf),
         adaptive_param_noise=True, adaptive_param_noise_policy_threshold=.1,
         critic_l2_reg=0., actor_lr=1e-4, critic_lr=1e-3, clip_norm=None, reward_scale=1.):
         # Inputs.
@@ -321,6 +321,10 @@ class DDPG(object):
         self.actor_optimizer.sync()
         self.critic_optimizer.sync()
         self.sess.run(self.target_init_updates)
+
+    ######MINE
+    def init_sess(self, sess):
+        self.sess = sess
 
     def update_target_net(self):
         self.sess.run(self.target_soft_updates)
