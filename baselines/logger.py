@@ -280,6 +280,27 @@ def reset():
 
 
 # ================================================================
+# My Loading 
+# ================================================================
+def load_progress(dir,fname):
+    j_contents = []
+    with open(osp.join(dir,fname),'r') as f:
+        for line in f:
+            j_content = json.loads(line)
+            j_contents.append(j_content)
+    log('Loading progress from: %s'%dir)
+    return j_contents
+
+def write_progress(j_contents):
+    for i in range(len(j_contents)):
+        for key in sorted(j_contents[i].keys()):
+            record_tabular(key, j_contents[i][key])
+        dump_tabular()
+        info('')
+    log('Writing progress in: %s'%Logger.CURRENT.get_dir())
+
+
+# ================================================================
 
 def _demo():
     info("hi")

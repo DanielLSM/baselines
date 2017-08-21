@@ -286,10 +286,9 @@ def load_train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, rende
     with U.single_threaded_session() as sess:
         # Prepare everything.
         agent.initialize(sess)
-        U.load_state('/home/danielpc/Desktop/Gym_Train/model/gym_model-499')
+        U.load_state('/home/danielpc/Desktop/Gym_Train_Pendulum/model/gym_model-499')
         sess.graph.finalize()
-
-        agent.reset()
+        
         obs = env.reset()
         if eval_env is not None:
             eval_obs = eval_env.reset()

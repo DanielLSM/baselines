@@ -108,7 +108,7 @@ def run(env_id, seed, noise_type, num_cpu, layer_norm, logdir, gym_monitor, eval
         Logger.CURRENT.close()
         if rank == 0:
             logger.info('total runtime: {}s'.format(time.time() - start_time))
-    else if load:
+    elif load:
            # Disable logging for rank != 0 to avoid noise.
         if rank == 0:
             start_time = time.time()
@@ -180,8 +180,9 @@ if __name__ == '__main__':
     args = parse_args()
 
     
-    dir = '/home/danielpc/Desktop/Gym_Train'
-    logger.configure(dir=dir)
+    if test is False:
+        dir = '/home/danielpc/Desktop/Gym_Train'
+        logger.configure(dir=dir)
 
 
     # Figure out what logdir to use.
@@ -193,9 +194,15 @@ if __name__ == '__main__':
     for key in sorted(args.keys()):
         logger.info('{}: {}'.format(key, args[key]))
     logger.info('')
-    if args['logdir']:
-        with open(os.path.join(dir, 'args.json'), 'w') as f:
-            json.dump(args, f)
+    
+    with open(os.path.join(dir, 'args.json'), 'w') as f:
+        json.dump(args, f)
+
+
+
+    #if args['logdir']:
+    #    with open(os.path.join(dir, 'args.json'), 'w') as f:
+    #        json.dump(args, f)
 
     # Run actual script.
     run(**args)
