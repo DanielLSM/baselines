@@ -232,7 +232,7 @@ def test(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, par
         #sess.graph.finalize()
         #saver = tf.train.import_meta_graph('/home/danielpc/Desktop/Gym_Train/model/gym_model-499.meta')
         #saver.restore(sess,'/home/danielpc/Desktop/Gym_Train/model/gym_model-499')
-        U.load_state('/home/danielpc/Desktop/Gym_Train/model/gym_model-499')
+        U.load_state(logger.get_dir()+'/model/gym_model-9')
         #agent.init_sess(sess)
         #agent.reset()
         obs = env.reset()
@@ -286,9 +286,9 @@ def load_train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, rende
     with U.single_threaded_session() as sess:
         # Prepare everything.
         agent.initialize(sess)
-        U.load_state('/home/danielpc/Desktop/Gym_Train_Pendulum/model/gym_model-499')
+        U.load_state(logger.get_dir()+'/model/gym_model-9')
         sess.graph.finalize()
-        
+
         obs = env.reset()
         if eval_env is not None:
             eval_obs = eval_env.reset()

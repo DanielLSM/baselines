@@ -157,7 +157,7 @@ def parse_args():
     parser.add_argument('--reward-scale', type=float, default=1.)
     parser.add_argument('--clip-norm', type=float, default=None)
     parser.add_argument('--nb-epochs', type=int, default=500)  # with default settings, perform 1M steps total
-    parser.add_argument('--nb-epoch-cycles', type=int, default=20)
+    parser.add_argument('--nb-epoch-cycles', type=int, default=10)
     parser.add_argument('--nb-train-steps', type=int, default=50)  # per epoch cycle and MPI worker
     parser.add_argument('--nb-eval-steps', type=int, default=100)  # per epoch cycle and MPI worker
     parser.add_argument('--nb-rollout-steps', type=int, default=100)  # per epoch cycle and MPI worker
@@ -179,11 +179,14 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
 
-    
-    if test is False:
-        dir = '/home/danielpc/Desktop/Gym_Train'
+    Logger.CURRENT.dir = '/home/danielpc/Desktop/NewHome'
+    if args['test'] is False:
+        dir = '/home/danielpc/Desktop/NewHome'
+        if args['load']:
+            progress_content = logger.load_progress(dir,'progress.json')
         logger.configure(dir=dir)
-
+        if args['load']:
+            logger.write_progress(progress_content)
 
     # Figure out what logdir to use.
     if args['logdir'] is None:
@@ -195,8 +198,9 @@ if __name__ == '__main__':
         logger.info('{}: {}'.format(key, args[key]))
     logger.info('')
     
-    with open(os.path.join(dir, 'args.json'), 'w') as f:
-        json.dump(args, f)
+    if args['test'] is False:
+        with open(os.path.join(dir, 'args.json'), 'w') as f:
+            json.dump(args, f)
 
 
 
