@@ -54,7 +54,8 @@ def run(env_id, seed, noise_type, num_cpu, layer_norm, logdir, gym_monitor, eval
     #env.reset()
     old_observation = None
     def obg(plain_obs):
-        nonlocal old_observation, steps
+        nonlocal old_observation
+
         processed_observation, old_observation = go(plain_obs, old_observation, step=steps)
         return np.array(processed_observation)
     # Create envs.

@@ -31,12 +31,11 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
     rank = MPI.COMM_WORLD.Get_rank()
         
     #############################################
-    old_observation = None
     def obg(plain_obs):
-        nonlocal old_observation, steps
-        processed_observation, old_observation = go(plain_obs, old_observation, step=steps)
+        nonlocal old_observation
+        processed_observation, old_observation = go(plain_obs, old_observation)
         return np.array(processed_observation)
-
+    old_observation = None
     obs = obg(env.reset())
     ##############################################
 
@@ -45,7 +44,7 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
     #assert (np.abs(env.action_space.low) == env.action_space.high).all()  # we assume symmetric actions.
     max_action = env.action_space.high
     logger.info('scaling actions by {} before executing in env'.format(max_action))
-    agent = DDPG(actor, critic, memory, obs.shape, env.action_space.shape,
+    agent = DDPG(actor, critic, memory, (55,), env.action_space.shape,
         gamma=gamma, tau=tau, normalize_returns=normalize_returns, normalize_observations=normalize_observations,
         batch_size=batch_size, action_noise=action_noise, param_noise=param_noise, critic_l2_reg=critic_l2_reg,
         actor_lr=actor_lr, critic_lr=critic_lr, enable_popart=popart, clip_norm=clip_norm,
@@ -240,7 +239,7 @@ def test(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, par
     #############################################
     old_observation = None
     def obg(plain_obs):
-        nonlocal old_observation, steps
+        nonlocal old_observation
         processed_observation, old_observation = go(plain_obs, old_observation, step=steps)
         return np.array(processed_observation)
 
@@ -253,7 +252,7 @@ def test(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, par
     #assert (np.abs(env.action_space.low) == env.action_space.high).all()  # we assume symmetric actions.
     max_action = env.action_space.high
     logger.info('scaling actions by {} before executing in env'.format(max_action))
-    agent = DDPG(actor, critic, memory, obs.shape, env.action_space.shape,
+    agent = DDPG(actor, critic, memory, (55,), env.action_space.shape,
         gamma=gamma, tau=tau, normalize_returns=normalize_returns, normalize_observations=normalize_observations,
         batch_size=batch_size, action_noise=action_noise, param_noise=param_noise, critic_l2_reg=critic_l2_reg,
         actor_lr=actor_lr, critic_lr=critic_lr, enable_popart=popart, clip_norm=clip_norm,
@@ -318,7 +317,7 @@ def load_train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, rende
     #############################################
     old_observation = None
     def obg(plain_obs):
-        nonlocal old_observation, steps
+        nonlocal old_observation
         processed_observation, old_observation = go(plain_obs, old_observation, step=steps)
         return np.array(processed_observation)
 
@@ -328,7 +327,7 @@ def load_train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, rende
     #assert (np.abs(env.action_space.low) == env.action_space.high).all()  # we assume symmetric actions.
     max_action = env.action_space.high
     logger.info('scaling actions by {} before executing in env'.format(max_action))
-    agent = DDPG(actor, critic, memory, obs.shape, env.action_space.shape,
+    agent = DDPG(actor, critic, memory, (55,), env.action_space.shape,
         gamma=gamma, tau=tau, normalize_returns=normalize_returns, normalize_observations=normalize_observations,
         batch_size=batch_size, action_noise=action_noise, param_noise=param_noise, critic_l2_reg=critic_l2_reg,
         actor_lr=actor_lr, critic_lr=critic_lr, enable_popart=popart, clip_norm=clip_norm,
