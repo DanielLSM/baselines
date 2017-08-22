@@ -52,7 +52,11 @@ def run(env_id, seed, noise_type, num_cpu, layer_norm, logdir, gym_monitor, eval
     # Load walking environment
     #env = RunEnv(args.visualize)
     #env.reset()
-
+    old_observation = None
+    def obg(plain_obs):
+        nonlocal old_observation, steps
+        processed_observation, old_observation = go(plain_obs, old_observation, step=steps)
+        return np.array(processed_observation)
     # Create envs.
     if rank == 0:
         #env = gym.make(env_id)
@@ -60,7 +64,7 @@ def run(env_id, seed, noise_type, num_cpu, layer_norm, logdir, gym_monitor, eval
         #    env = gym.wrappers.Monitor(env, os.path.join(logdir, 'gym_train'), force=True)
         #env = SimpleMonitor(env)
         env = RunEnv(False)
-        env.reset()
+        obs = obg(env.reset())
         if evaluation:
             eval_env = gym.make(env_id)
             if gym_monitor and logdir:
@@ -70,7 +74,7 @@ def run(env_id, seed, noise_type, num_cpu, layer_norm, logdir, gym_monitor, eval
             eval_env = None
     else:
         env = RunEnv(False)
-        env.reset()
+        obs = obg(env.reset())
         #env = gym.make(env_id)
         if evaluation:
             eval_env = gym.make(env_id)
@@ -98,7 +102,7 @@ def run(env_id, seed, noise_type, num_cpu, layer_norm, logdir, gym_monitor, eval
             raise RuntimeError('unknown noise type "{}"'.format(current_noise_type))
 
     # Configure components.
-    memory = Memory(limit=int(1e6), action_shape=env.action_space.shape, observation_shape=env.observation_space.shape)
+    memory = Memory(limit=int(1e6), action_shape=env.action_space.shape, observation_shape=obs.shape)
     critic = Critic(layer_norm=layer_norm)
     actor = Actor(nb_actions, layer_norm=layer_norm)
 

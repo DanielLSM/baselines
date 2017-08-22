@@ -29,11 +29,23 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
     popart, gamma, clip_norm, nb_train_steps, nb_rollout_steps, nb_eval_steps, batch_size, memory,
     tau=0.01, eval_env=None, param_noise_adaption_interval=50):
     rank = MPI.COMM_WORLD.Get_rank()
+        
+    #############################################
+    old_observation = None
+    def obg(plain_obs):
+        nonlocal old_observation, steps
+        processed_observation, old_observation = go(plain_obs, old_observation, step=steps)
+        return np.array(processed_observation)
 
-    assert (np.abs(env.action_space.low) == env.action_space.high).all()  # we assume symmetric actions.
+    obs = obg(env.reset())
+    ##############################################
+
+
+
+    #assert (np.abs(env.action_space.low) == env.action_space.high).all()  # we assume symmetric actions.
     max_action = env.action_space.high
     logger.info('scaling actions by {} before executing in env'.format(max_action))
-    agent = DDPG(actor, critic, memory, env.observation_space.shape, env.action_space.shape,
+    agent = DDPG(actor, critic, memory, obs.shape, env.action_space.shape,
         gamma=gamma, tau=tau, normalize_returns=normalize_returns, normalize_observations=normalize_observations,
         batch_size=batch_size, action_noise=action_noise, param_noise=param_noise, critic_l2_reg=critic_l2_reg,
         actor_lr=actor_lr, critic_lr=critic_lr, enable_popart=popart, clip_norm=clip_norm,
@@ -61,12 +73,6 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
 
         agent.reset()
         #############################################
-        old_observation = None
-        def obg(plain_obs):
-            nonlocal old_observation, steps
-            processed_observation, old_observation = go(plain_obs, old_observation, step=steps)
-            return np.array(processed_observation)
-
         obs = obg(env.reset())
         ##############################################
         #obs = env.reset()
@@ -231,10 +237,23 @@ def test(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, par
     tau=0.01, eval_env=None, param_noise_adaption_interval=50):
     rank = MPI.COMM_WORLD.Get_rank()
 
-    assert (np.abs(env.action_space.low) == env.action_space.high).all()  # we assume symmetric actions.
+    #############################################
+    old_observation = None
+    def obg(plain_obs):
+        nonlocal old_observation, steps
+        processed_observation, old_observation = go(plain_obs, old_observation, step=steps)
+        return np.array(processed_observation)
+
+    obs = obg(env.reset())
+    ##############################################
+
+
+
+
+    #assert (np.abs(env.action_space.low) == env.action_space.high).all()  # we assume symmetric actions.
     max_action = env.action_space.high
     logger.info('scaling actions by {} before executing in env'.format(max_action))
-    agent = DDPG(actor, critic, memory, env.observation_space.shape, env.action_space.shape,
+    agent = DDPG(actor, critic, memory, obs.shape, env.action_space.shape,
         gamma=gamma, tau=tau, normalize_returns=normalize_returns, normalize_observations=normalize_observations,
         batch_size=batch_size, action_noise=action_noise, param_noise=param_noise, critic_l2_reg=critic_l2_reg,
         actor_lr=actor_lr, critic_lr=critic_lr, enable_popart=popart, clip_norm=clip_norm,
@@ -247,12 +266,6 @@ def test(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, par
     env = RunEnv(True)
     #env.reset()
     #############################################
-    old_observation = None
-    def obg(plain_obs):
-        nonlocal old_observation, steps
-        processed_observation, old_observation = go(plain_obs, old_observation, step=steps)
-        return np.array(processed_observation)
-
     obs = obg(env.reset())
     ##############################################
     #obs = env.reset() 
@@ -301,11 +314,21 @@ def load_train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, rende
     popart, gamma, clip_norm, nb_train_steps, nb_rollout_steps, nb_eval_steps, batch_size, memory,
     tau=0.01, eval_env=None, param_noise_adaption_interval=50):
     rank = MPI.COMM_WORLD.Get_rank()
+    
+    #############################################
+    old_observation = None
+    def obg(plain_obs):
+        nonlocal old_observation, steps
+        processed_observation, old_observation = go(plain_obs, old_observation, step=steps)
+        return np.array(processed_observation)
 
-    assert (np.abs(env.action_space.low) == env.action_space.high).all()  # we assume symmetric actions.
+    obs = obg(env.reset())
+    ##############################################
+
+    #assert (np.abs(env.action_space.low) == env.action_space.high).all()  # we assume symmetric actions.
     max_action = env.action_space.high
     logger.info('scaling actions by {} before executing in env'.format(max_action))
-    agent = DDPG(actor, critic, memory, env.observation_space.shape, env.action_space.shape,
+    agent = DDPG(actor, critic, memory, obs.shape, env.action_space.shape,
         gamma=gamma, tau=tau, normalize_returns=normalize_returns, normalize_observations=normalize_observations,
         batch_size=batch_size, action_noise=action_noise, param_noise=param_noise, critic_l2_reg=critic_l2_reg,
         actor_lr=actor_lr, critic_lr=critic_lr, enable_popart=popart, clip_norm=clip_norm,
@@ -329,12 +352,6 @@ def load_train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, rende
         U.load_state(logger.get_dir()+'/model/gym_model-9')
         sess.graph.finalize()
         #############################################
-        old_observation = None
-        def obg(plain_obs):
-            nonlocal old_observation, steps
-            processed_observation, old_observation = go(plain_obs, old_observation, step=steps)
-            return np.array(processed_observation)
-
         obs = obg(env.reset())
         ##############################################
         #obs = env.reset()
