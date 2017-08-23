@@ -179,9 +179,9 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
 
-    Logger.CURRENT.dir = '/home/danielpc/Desktop/NewHome'
+    Logger.CURRENT.dir = '/home/daniel/Desktop/NewHome'
     if args['test'] is False:
-        dir = '/home/danielpc/Desktop/NewHome'
+        dir = '/home/daniel/Desktop/NewHome'
         if args['load']:
             progress_content = logger.load_progress(dir,'progress.json')
         logger.configure(dir=dir)
