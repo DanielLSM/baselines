@@ -36,7 +36,7 @@ class Actor(Model):
                 x = tc.layers.layer_norm(x, center=True, scale=True)
             x = tf.nn.relu(x)
             
-            x = tf.layers.dense(x, 64)
+            x = tf.layers.dense(x, 128)
             if self.layer_norm:
                 x = tc.layers.layer_norm(x, center=True, scale=True)
             x = tf.nn.relu(x)
