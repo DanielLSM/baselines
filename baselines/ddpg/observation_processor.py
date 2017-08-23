@@ -1,3 +1,5 @@
+"""FROM https://github.com/ctmakro/stanford-osrl """
+
 def get_observation(self):
     bodies = ['head', 'pelvis', 'torso', 'toes_l', 'toes_r', 'talus_l', 'talus_r']
 
