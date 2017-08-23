@@ -34,7 +34,7 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
     #assert (np.abs(env.action_space.low) == env.action_space.high).all()  # we assume symmetric actions.
     max_action = env.action_space.high
     logger.info('scaling actions by {} before executing in env'.format(max_action))
-    agent = DDPG(actor, critic, memory, (1,48), env.action_space.shape,
+    agent = DDPG(actor, critic, memory, (48,), env.action_space.shape,
         gamma=gamma, tau=tau, normalize_returns=normalize_returns, normalize_observations=normalize_observations,
         batch_size=batch_size, action_noise=action_noise, param_noise=param_noise, critic_l2_reg=critic_l2_reg,
         actor_lr=actor_lr, critic_lr=critic_lr, enable_popart=popart, clip_norm=clip_norm,
@@ -226,23 +226,12 @@ def test(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, par
     tau=0.01, eval_env=None, param_noise_adaption_interval=50):
     rank = MPI.COMM_WORLD.Get_rank()
 
-    #############################################
-    old_observation = None
-    def obg(plain_obs):
-        nonlocal old_observation
-        processed_observation, old_observation = go(plain_obs, old_observation, step=steps)
-        return np.array(processed_observation)
-
-    obs = obg(env.reset())
-    ##############################################
-
-
-
+ 
 
     #assert (np.abs(env.action_space.low) == env.action_space.high).all()  # we assume symmetric actions.
     max_action = env.action_space.high
     logger.info('scaling actions by {} before executing in env'.format(max_action))
-    agent = DDPG(actor, critic, memory, env.observation_space.shape, env.action_space.shape,
+    agent = DDPG(actor, critic, memory, (48,), env.action_space.shape,
         gamma=gamma, tau=tau, normalize_returns=normalize_returns, normalize_observations=normalize_observations,
         batch_size=batch_size, action_noise=action_noise, param_noise=param_noise, critic_l2_reg=critic_l2_reg,
         actor_lr=actor_lr, critic_lr=critic_lr, enable_popart=popart, clip_norm=clip_norm,
@@ -252,16 +241,16 @@ def test(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, par
 
     # Set up logging stuff only for a single worker.
     
-    env = RunEnv(True)
+    #env = RunEnv(True)
     #env.reset()
     #############################################
-    obs = obg(env.reset())
+    obs = po(env.reset())
     ##############################################
     #obs = env.reset() 
 
 
     #obs = env.reset()
-    env.render()
+    #env.render()
     
 
     episode_r = 0
@@ -273,19 +262,19 @@ def test(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, par
         #sess.graph.finalize()
         #saver = tf.train.import_meta_graph('/home/danielpc/Desktop/Gym_Train/model/gym_model-499.meta')
         #saver.restore(sess,'/home/danielpc/Desktop/Gym_Train/model/gym_model-499')
-        U.load_state(logger.get_dir()+'/model/gym_model-9')
+        U.load_state(logger.get_dir()+'/model/gym_model-96')
         #agent.init_sess(sess)
         #agent.reset()
         #obs = env.reset()
         done = False
         while not done:
 
-            action, q = agent.pi(obs, apply_noise=False, compute_Q=True)
+            action, q = agent.pi(obs, apply_noise=False, compute_Q=False)
             obs, r, done, info = env.step(max_action * action)
-            obs = obg(obs)
+            obs = po(obs)
             #obs, r, done, info = env.step(env.action_space.sample())
             episode_r += r
-            env.render()
+            #env.render()
         print('Episode Reward ', episode_r)
 
     #act = deepq.load("mountaincar_model.pkl")
@@ -304,20 +293,11 @@ def load_train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, rende
     tau=0.01, eval_env=None, param_noise_adaption_interval=50):
     rank = MPI.COMM_WORLD.Get_rank()
     
-    #############################################
-    old_observation = None
-    def obg(plain_obs):
-        nonlocal old_observation
-        processed_observation, old_observation = go(plain_obs, old_observation, step=steps)
-        return np.array(processed_observation)
-
-    obs = obg(env.reset())
-    ##############################################
 
     #assert (np.abs(env.action_space.low) == env.action_space.high).all()  # we assume symmetric actions.
     max_action = env.action_space.high
     logger.info('scaling actions by {} before executing in env'.format(max_action))
-    agent = DDPG(actor, critic, memory, env.observation_space.shape, env.action_space.shape,
+    agent = DDPG(actor, critic, memory, (48,), env.action_space.shape,
         gamma=gamma, tau=tau, normalize_returns=normalize_returns, normalize_observations=normalize_observations,
         batch_size=batch_size, action_noise=action_noise, param_noise=param_noise, critic_l2_reg=critic_l2_reg,
         actor_lr=actor_lr, critic_lr=critic_lr, enable_popart=popart, clip_norm=clip_norm,
@@ -338,10 +318,10 @@ def load_train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, rende
     with U.single_threaded_session() as sess:
         # Prepare everything.
         agent.initialize(sess)
-        U.load_state(logger.get_dir()+'/model/gym_model-9')
+        U.load_state('/home/daniel/Desktop/NIPS_USELESS'+'/model/gym_model-99')
         sess.graph.finalize()
         #############################################
-        obs = obg(env.reset())
+        obs = po(env.reset())
         ##############################################
         #obs = env.reset()
         if eval_env is not None:
@@ -378,7 +358,7 @@ def load_train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, rende
                     new_obs, r, done, info = env.step(max_action * action)  # scale for execution in env (as far as DDPG is concerned, every action is in [-1, 1])
                     
                     ##########
-                    new_obs = obg(new_obs)
+                    new_obs = po(new_obs)
                     ##########
 
                     t += 1
@@ -405,7 +385,7 @@ def load_train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, rende
 
                         agent.reset()
                         ####################
-                        obs = obg(env.reset())
+                        obs = po(env.reset())
                         ####################
                         #obs = env.reset()
 

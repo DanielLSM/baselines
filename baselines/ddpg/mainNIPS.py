@@ -111,6 +111,7 @@ def run(env_id, seed, noise_type, num_cpu, layer_norm, logdir, gym_monitor, eval
 
 
     if test:
+        env = RunEnv(True)
            # Disable logging for rank != 0 to avoid noise.
         if rank == 0:
          start_time = time.time()
@@ -193,14 +194,14 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
 
-    Logger.CURRENT.dir = '/home/daniel/Desktop/NIPS_USELESS'
+    Logger.CURRENT.dir = '/home/daniel/Desktop/NIPS_test_1'
     if args['test'] is False:
-        dir = '/home/daniel/Desktop/NIPS_USELESS'
-        if args['load']:
-            progress_content = logger.load_progress(dir,'progress.json')
+        dir = '/home/daniel/Desktop/NIPS_USELESS_1'
+        #if args['load']:
+        #    progress_content = logger.load_progress('/home/daniel/Desktop/NIPS_USELESS','progress.json')
         logger.configure(dir=dir)
-        if args['load']:
-            logger.write_progress(progress_content)
+        #if args['load']:
+        #    logger.write_progress(progress_content)
 
     # Figure out what logdir to use.
     if args['logdir'] is None:
