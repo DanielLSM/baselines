@@ -218,6 +218,7 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
                         pickle.dump(eval_env.get_state(), f)
             if rank == 0:
                 saver.save(sess, logger.get_dir()+'/model/gym_model', global_step=epoch)
+                agent.memory.save(logger.get_dir()+'replay_memory.pkl')
 
 
 def test(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, param_noise, actor, critic,
@@ -252,7 +253,7 @@ def test(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, par
     #obs = env.reset()
     #env.render()
     
-
+    #agent.memory.load()
     episode_r = 0
 
     with U.single_threaded_session() as sess:
@@ -311,6 +312,7 @@ def load_train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, rende
     else:
         saver = None
     
+    #agent.memory.load()
     step = 0
     episode = 0
     eval_episode_rewards_history = deque(maxlen=100)
