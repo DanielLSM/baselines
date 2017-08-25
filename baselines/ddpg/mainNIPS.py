@@ -17,7 +17,7 @@ from baselines.common.misc_util import (
 )
 import baselines.ddpg.trainingNIPS as training
 from baselines.ddpg.models import Actor, Critic
-from baselines.ddpg.memory import Memory
+from baselines.ddpg.memoryNIPS import Memory
 from baselines.ddpg.noise import *
 
 import gym
@@ -194,9 +194,9 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
 
-    Logger.CURRENT.dir = '/home/daniel/Desktop/NIPS_test_1'
+    Logger.CURRENT.dir = '/home/daniel/Desktop/NIPS_USELESS_10'
     if args['test'] is False:
-        dir = '/home/daniel/Desktop/NIPS_USELESS_1'
+        dir = '/home/daniel/Desktop/NIPS_USELESS_10'
         #if args['load']:
         #    progress_content = logger.load_progress('/home/daniel/Desktop/NIPS_USELESS','progress.json')
         logger.configure(dir=dir)

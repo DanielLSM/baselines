@@ -1,4 +1,4 @@
-"""FROM https://github.com/ctmakro/stanford-osrl """
+""" NOT MINE, https://github.com/ctmakro/stanford-osrl creator """
 
 def get_observation(self):
     bodies = ['head', 'pelvis', 'torso', 'toes_l', 'toes_r', 'talus_l', 'talus_r']
@@ -103,7 +103,7 @@ def process_observation(observation):
     o[20] -= pvx
     o[21] -= pvy
 
-    #o[38]=0 # ball info are included later in the stage
+    o[38]=0 # ball info are included later in the stage
     # o[39]/=5
     # o[40]/=5
 

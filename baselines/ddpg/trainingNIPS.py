@@ -21,6 +21,7 @@ from baselines.common.misc_util import (
 
 import gym
 
+from baselines.ddpg import process_observation
 from baselines.ddpg.observation_processor import process_observation as po
 from baselines.ddpg.observation_processor import generate_observation as go
 
@@ -34,7 +35,7 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
     #assert (np.abs(env.action_space.low) == env.action_space.high).all()  # we assume symmetric actions.
     max_action = env.action_space.high
     logger.info('scaling actions by {} before executing in env'.format(max_action))
-    agent = DDPG(actor, critic, memory, (48,), env.action_space.shape,
+    agent = DDPG(actor, critic, memory, (135,), env.action_space.shape,
         gamma=gamma, tau=tau, normalize_returns=normalize_returns, normalize_observations=normalize_observations,
         batch_size=batch_size, action_noise=action_noise, param_noise=param_noise, critic_l2_reg=critic_l2_reg,
         actor_lr=actor_lr, critic_lr=critic_lr, enable_popart=popart, clip_norm=clip_norm,
@@ -62,7 +63,7 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
 
         agent.reset()
         #############################################
-        obs = po(env.reset())
+        obs, magic = go(env.reset(),step=0)
         ##############################################
         #obs = env.reset()
 
@@ -102,19 +103,22 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
                         env.render()
                     assert max_action.shape == action.shape
                     new_obs, r, done, info = env.step(max_action * action)  # scale for execution in env (as far as DDPG is concerned, every action is in [-1, 1])
-                    ##########
-                    new_obs = po(new_obs)
-                    ##########
+
                     t += 1
                     if rank == 0 and render:
                         env.render()
                     episode_reward += r
                     episode_step += 1
 
+                    ##########
+                    new_obs, magic = go(new_obs, magic, step=episode_step)
+                    ##########                    
+
                     # Book-keeping.
                     epoch_actions.append(action)
                     epoch_qs.append(q)
                     agent.store_transition(obs, action, r, new_obs, done)
+
                     obs = new_obs
 
                     if done:
@@ -129,7 +133,7 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
 
                         agent.reset()
                         ####################
-                        obs = po(env.reset())
+                        obs, magic = go(env.reset(),step=0)
                         ####################
                         #obs = env.reset()
 
@@ -218,8 +222,7 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
                         pickle.dump(eval_env.get_state(), f)
             if rank == 0:
                 saver.save(sess, logger.get_dir()+'/model/gym_model', global_step=epoch)
-                agent.memory.save(logger.get_dir()+'replay_memory.pkl')
-
+                agent.memory.save(logger.get_dir()+'/memory_pickle.pkl')
 
 def test(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, param_noise, actor, critic,
     normalize_returns, normalize_observations, critic_l2_reg, actor_lr, critic_lr, action_noise, logdir,
@@ -253,7 +256,7 @@ def test(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, par
     #obs = env.reset()
     #env.render()
     
-    #agent.memory.load()
+
     episode_r = 0
 
     with U.single_threaded_session() as sess:
@@ -263,7 +266,7 @@ def test(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, par
         #sess.graph.finalize()
         #saver = tf.train.import_meta_graph('/home/danielpc/Desktop/Gym_Train/model/gym_model-499.meta')
         #saver.restore(sess,'/home/danielpc/Desktop/Gym_Train/model/gym_model-499')
-        U.load_state(logger.get_dir()+'/model/gym_model-96')
+        U.load_state(logger.get_dir()+'/model/gym_model-159')
         #agent.init_sess(sess)
         #agent.reset()
         #obs = env.reset()
@@ -312,7 +315,6 @@ def load_train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, rende
     else:
         saver = None
     
-    #agent.memory.load()
     step = 0
     episode = 0
     eval_episode_rewards_history = deque(maxlen=100)
@@ -320,7 +322,9 @@ def load_train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, rende
     with U.single_threaded_session() as sess:
         # Prepare everything.
         agent.initialize(sess)
-        U.load_state('/home/daniel/Desktop/NIPS_USELESS'+'/model/gym_model-99')
+        U.load_state('/home/daniel/Desktop/NIPS_USELESS_2'+'/model/gym_model-24')
+        agent.memory.load('/home/daniel/Desktop/NIPS_USELESS_2'+'/memory_pickle.pkl')
+        print('Mem Replay has a lot of entries: ',agent.memory.nb_entries)
         sess.graph.finalize()
         #############################################
         obs = po(env.reset())
@@ -475,3 +479,5 @@ def load_train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, rende
                         pickle.dump(eval_env.get_state(), f)
             if rank == 0:
                 saver.save(sess, logger.get_dir()+'/model/gym_model', global_step=epoch)
+                agent.memory.save(logger.get_dir()+'/memory_pickle.pkl')
+
