@@ -21,7 +21,7 @@ from baselines.common.misc_util import (
 
 import gym
 
-from baselines.ddpg import process_observation
+from baselines.ddpg import observation_processor
 from baselines.ddpg.observation_processor import process_observation as po
 from baselines.ddpg.observation_processor import generate_observation as go
 
